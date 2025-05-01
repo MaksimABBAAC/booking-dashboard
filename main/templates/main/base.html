@@ -1,0 +1,51 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    {% block style %}
+    
+    {% endblock style %}
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+</head>
+<body>
+    <!-- Шапка с меню -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo"><a href="{% url "main:index" %}">Система записи</a></div>
+            <ul class="nav-menu">
+                <li><a href="{% url "masters:index" %}">Специалисты</a></li>
+                <li><a href="{% url "masters:index" %}">Записи</a></li>
+                <li><a href="{% url "masters:index" %}">Клиенты</a></li>
+                <li><a href="{% url "masters:index" %}">Статистика</a></li>
+                {% if 1 %}
+                <li><a href="{% url "masters:index" %}">Войти</a></li>
+                {% else %}
+                <li><a href="{% url "masters:index" %}">Выйти</a></li>
+                {% endif %}
+                
+            </ul>
+        </div>
+    </header>
+    
+    {% block content %}
+    
+    {% endblock content %}
+    
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>© 2025 Система записи. Все права защищены.</p>
+            <p>Административная панель версия 1.0.0</p>
+            <ul class="footer-links">
+                <li><a href="#">Политика конфиденциальности</a></li>
+                <li><a href="#">Условия использования</a></li>
+                <li><a href="#">Поддержка</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
