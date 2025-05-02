@@ -1,10 +1,38 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
+{% block style%}
+    <link rel="stylesheet" href="{% static "css/form.css" %}">
+{%endblock style%}
 {% block content %}
 <h2>Добавления специалиста</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-</form>
+<div class="form-container">
+    <h2 class="form-title">Добавление специалиста</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.surname.id_for_label }}">Фамилия:</label>
+            {{ form.surname }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Имя:</label>
+            {{ form.name }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.patronymic.id_for_label }}">Отчество:</label>
+            {{ form.patronymic }}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Описание:</label>
+            {{ form.description }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'masters:index' %}" class="btn" style="margin-left: 10px;">Отмена</a>
+    </form>
+</div>
 {% endblock %}

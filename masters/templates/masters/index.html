@@ -2,9 +2,39 @@
 {% load static %}
 
 {% block style%}
-    <link rel="stylesheet" href="{% static "css/index.css" %}">  
+    <link rel="stylesheet" href="{% static "css/table.css" %}">
 {%endblock style%}
 
 {% block content%}
-    
+    <div class="content">
+        <div class="table-header">
+            <h2>Список специалистов</h2>
+            <a href="{% url 'masters:add' %}" class="btn-add">
+                + Добавить специалиста
+            </a>
+        </div>
+        <table>
+            <thead>
+                <td>id</td>
+                <td>surname</td>
+                <td>name</td>
+                <td>patronymic</td>
+                <td>description</td>
+                <td></td>
+            </thead>
+            {% for master in masters  %}
+            <tr>
+                <td><a href="{% url 'masters:master' master.id %}">{{master.id}}</a></td>
+                <td>{{master.surname}}</td>
+                <td>{{master.name}}</td>
+                <td>{{master.patronymic}}</td>
+                <td>{{master.description}}</td>
+                <td>
+                    <a href="#" class="btn-edit">✏️</a>
+                    <a href="#" class="btn-delete">🗑️</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 {%endblock content%}

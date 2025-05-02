@@ -1,8 +1,22 @@
 {% extends 'main/base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static "css/master.css" %}">
+{% endblock style %}
 
 {% block content %}
-<p>{{ master.name }}</p>
-<p>{{ master.surname }}</p>
-<p>{{ master.patronymic }}</p>
-<p>{{ master.description }}</p>
-{% endblock %}
+<div class="master-profile">
+    <div class="master-header">
+        <h1 class="master-name">{{ master.surname }} {{ master.name }}</h1>
+        <div class="master-fullname">{{ master.patronymic }}</div>
+    </div>
+    
+    <div class="master-description">
+        <h3>О специалисте:</h3>
+        <p>{{ master.description }}</p>
+    </div>
+    
+    <a href="{% url 'masters:index' %}" class="back-link">← Вернуться к списку специалистов</a>
+</div>
+{% endblock content%}
