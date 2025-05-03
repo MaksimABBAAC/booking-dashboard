@@ -8,8 +8,8 @@
 {% block content %}
 <div class="master-profile">
     <div class="master-header">
-        <h1 class="master-name">{{ master.surname }} {{ master.name }}</h1>
-        <div class="master-fullname">{{ master.patronymic }}</div>
+        <h1 class="master-name">{{ master.surname }} {{ master.name }} {{ master.patronymic }}</h1>
+        <div class="master-fullname">{{ master.specialty }}</div>
     </div>
     
     <div class="master-description">
@@ -17,6 +17,6 @@
         <p>{{ master.description }}</p>
     </div>
     
-    <a href="{% url 'masters:index' %}" class="back-link">← Вернуться к списку специалистов</a>
+    <a href="{% url 'masters:masters' %}" class="back-link">← Вернуться к списку специалистов</a>
 </div>
 {% endblock content%}

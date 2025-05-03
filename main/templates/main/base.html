@@ -17,14 +17,15 @@
         <div class="nav-container">
             <div class="logo"><a href="{% url "main:index" %}">Система записи</a></div>
             <ul class="nav-menu">
-                <li><a href="{% url "masters:index" %}">Специалисты</a></li>
-                <li><a href="{% url "masters:index" %}">Записи</a></li>
-                <li><a href="{% url "masters:index" %}">Клиенты</a></li>
-                <li><a href="{% url "masters:index" %}">Статистика</a></li>
+                <li><a href="{% url "masters:masters" %}">Специалисты</a></li>
+                <li><a href="{% url "specialties:specialties" %}">Специальности</a></li>
+                <li><a href="#">Записи</a></li>
+                <li><a href="#">Клиенты</a></li>
+                <li><a href="#">Статистика</a></li>
                 {% if 1 %}
-                <li><a href="{% url "masters:index" %}">Войти</a></li>
+                <li><a href="#">Войти</a></li>
                 {% else %}
-                <li><a href="{% url "masters:index" %}">Выйти</a></li>
+                <li><a href="#">Выйти</a></li>
                 {% endif %}
                 
             </ul>

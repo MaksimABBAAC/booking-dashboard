@@ -1,37 +1,52 @@
-from django.shortcuts import get_list_or_404, redirect, render, get_object_or_404
-from .forms import MasterForm, ScheduleForm
-from .models import Master, Schedule
+from django.shortcuts import get_list_or_404, get_object_or_404
+from .forms import MasterForm
+from .models import Master
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView
 
-def index(request):
-    masters = get_list_or_404(Master)
 
-    return render(request, 'masters/index.html', {'masters': masters})
-
-def add(request):
-    if request.method == 'POST':
-        form = MasterForm(request.POST)
-        if form.is_valid():
-            master = form.save()
-            return redirect('masters:master', pk=master.pk)
-    else:
-        form = MasterForm()
-        
-    return render(request, 'masters/add.html', {'form': form})
+class MasterListView(ListView):
+    model = Master
+    template_name = 'masters/master_list.html'
+    context_object_name = 'masters'
     
-def master(request, pk):
-    master = get_object_or_404(Master, pk=pk)
-    return render(request, 'masters/master.html', {'master': master})
+    def get_queryset(self):
+        return get_list_or_404(Master)
 
-class ScheduleCreateView(CreateView):
-    model = Schedule
-    form_class = ScheduleForm
-    template_name = 'masters/schedule.html'
-    success_url = reverse_lazy('schedule_list')
 
-class ScheduleUpdateView(UpdateView):
-    model = Schedule
-    form_class = ScheduleForm
-    template_name = 'masters/schedule.html'
-    success_url = reverse_lazy('schedule_list')
+class MasterCreateView(CreateView):
+    model = Master
+    form_class = MasterForm
+    template_name = 'masters/master_form.html'
+    success_url = reverse_lazy('masters:masters')
+
+
+class MasterUpdateView(UpdateView):
+    model = Master
+    form_class = MasterForm
+    template_name = 'masters/master_form.html'
+    success_url = reverse_lazy('masters:masters')
+
+    
+class MasterDetailView(DetailView):
+    model = Master
+    template_name = 'masters/master.html'
+    context_object_name = 'master'
+    pk_url_kwarg = 'pk'
+    
+    def get_object(self):
+        return get_object_or_404(Master, pk=self.kwargs.get('pk'))
+
+
+# class ScheduleCreateView(CreateView):
+#     model = Schedule
+#     form_class = ScheduleForm
+#     template_name = 'masters/schedule.html'
+#     success_url = reverse_lazy('schedule_list')
+
+
+# class ScheduleUpdateView(UpdateView):
+#     model = Schedule
+#     form_class = ScheduleForm
+#     template_name = 'masters/schedule.html'
+#     success_url = reverse_lazy('schedule_list')

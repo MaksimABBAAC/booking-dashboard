@@ -25,6 +25,7 @@ urlpatterns = [
     # path('clients/', include('clients.urls', namespace='clients')),
     # path('statistics/', include('graphics.urls', namespace='statistics')),
     path('', include('main.urls', namespace='main')),
-    path('masters/', include('masters.urls', namespace='masters')),
+    path('', include('masters.urls', namespace='masters')),
+    path('', include('specialties.urls', namespace='specialties')),
     
 ]

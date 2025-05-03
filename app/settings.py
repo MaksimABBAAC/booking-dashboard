@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'clients',
     'graphics',
     'masters',
+    'specialties',
+    'schedules'
 ]
 
 MIDDLEWARE = [

@@ -9,7 +9,7 @@
     <div class="content">
         <div class="table-header">
             <h2>Список специалистов</h2>
-            <a href="{% url 'masters:add' %}" class="btn-add">
+            <a href="{% url 'masters:master_add' %}" class="btn-add">
                 + Добавить специалиста
             </a>
         </div>
@@ -30,7 +30,7 @@
                 <td>{{master.patronymic}}</td>
                 <td>{{master.description}}</td>
                 <td>
-                    <a href="#" class="btn-edit">✏️</a>
+                    <a href="{% url "masters:master_edit" master.id %}" class="btn-edit">✏️</a>
                     <a href="#" class="btn-delete">🗑️</a>
                 </td>
             </tr>

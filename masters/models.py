@@ -1,16 +1,7 @@
 from datetime import time
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-
-
-class Specialty(models.Model):
-    specialty = models.CharField(max_length=150)
-
-    class Meta:
-        verbose_name = "specialty"
-        verbose_name_plural = "specialties"
-        db_table = 'specialty'
-
+from specialties.models import Specialty
 
 class Master(models.Model):
 

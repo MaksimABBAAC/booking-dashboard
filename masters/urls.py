@@ -1,13 +1,14 @@
 from django.urls import path
-from masters import views
-from .views import ScheduleCreateView, ScheduleUpdateView
+from .views import MasterListView, MasterCreateView, MasterDetailView, MasterUpdateView
 
 app_name = 'masters'
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('add', views.add, name='add'),
-    path('<int:pk>/', views.master, name='master'),
-    path('schedule/add/', ScheduleCreateView.as_view(), name='schedule_add'),
-    path('schedule/<int:pk>/edit/', ScheduleUpdateView.as_view(), name='schedule_edit'),
+    path('masters/', MasterListView.as_view(), name='masters'),
+    path('master/<int:pk>/', MasterDetailView.as_view(), name='master'),
+    path('master/add/', MasterCreateView.as_view(), name='master_add'),
+    
+    path('master/<int:pk>/edit/', MasterUpdateView.as_view(), name='master_edit'),
+    # path('schedule/add/', ScheduleCreateView.as_view(), name='schedule_add'),
+    # path('schedule/<int:pk>/edit/', ScheduleUpdateView.as_view(), name='schedule_edit'),
 ]

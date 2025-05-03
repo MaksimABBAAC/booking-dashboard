@@ -1,0 +1,34 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block style%}
+    <link rel="stylesheet" href="{% static "css/table.css" %}">
+{%endblock style%}
+
+{% block content%}
+    <div class="content">
+        <div class="table-header">
+            <h2>Список специальностей</h2>
+            <a href="{% url 'specialties:specialty_add' %}" class="btn-add">
+                + Добавить специальность
+            </a>
+        </div>
+        <table>
+            <thead>
+                <td>id</td>
+                <td>name</td>
+                <td></td>
+            </thead>
+            {% for specialty in specialties  %}
+            <tr>
+                <td>{{specialty.id}}</td>
+                <td>{{specialty.name}}</td>
+                <td>
+                    <a href="{% url "specialties:specialty_edit" specialty.id %}" class="btn-edit">✏️</a>
+                    <a href="#" class="btn-delete">🗑️</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{%endblock content%}
