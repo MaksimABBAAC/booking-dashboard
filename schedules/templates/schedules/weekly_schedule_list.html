@@ -1,0 +1,58 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <div class="table-header">
+            <h2>Список расписаний</h2>
+            <a href="{% url 'schedules:schedule_add' %}" class="btn-add">
+                + Добавить расписание
+            </a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Название</td>
+                    <td>Мастер</td>
+                    <td>Статус</td>
+                    <td>Действия</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schedule in schedules %}
+                <tr>
+                    <td><a href="{% url 'schedules:schedule_edit' schedule.id %}">{{ schedule.id }}</a></td>
+                    <td>{{ schedule.title }}</td>
+                    <td>
+                        {% if schedule.master %}
+                            {{ schedule.master.surname }} {{ schedule.master.name }} {{ schedule.master.patronymic|default_if_none:"" }}
+                        {% else %}
+                            Не назначен
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if schedule.is_active %}
+                            <span class="status-active">Активно</span>
+                        {% else %}
+                            <span class="status-inactive">Неактивно</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'schedules:schedule_edit' schedule.id %}" class="btn-edit">✏️</a>
+                        <a href="#" class="btn-delete">🗑️</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center;">Нет доступных расписаний</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

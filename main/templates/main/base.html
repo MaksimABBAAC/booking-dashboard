@@ -17,11 +17,30 @@
         <div class="nav-container">
             <div class="logo"><a href="{% url "main:index" %}">Система записи</a></div>
             <ul class="nav-menu">
-                <li><a href="{% url "masters:masters" %}">Специалисты</a></li>
-                <li><a href="{% url "specialties:specialties" %}">Специальности</a></li>
+
+                <li class="dropdown">
+                    <a href="{% url "masters:masters" %}">Специалисты<span class="arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url "masters:master_add" %}">Добавить специалиста</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="{% url "specialties:specialties" %}">Специальности<span class="arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url "specialties:specialty_add" %}">Добавить специальность</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="{% url "schedules:schedules" %}">Расписания<span class="arrow">▼</span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url "schedules:schedule_add" %}">Добавить расписание</a></li>
+                    </ul>
+                </li>
+
                 <li><a href="#">Записи</a></li>
                 <li><a href="#">Клиенты</a></li>
-                <li><a href="#">Статистика</a></li>
                 {% if 1 %}
                 <li><a href="#">Войти</a></li>
                 {% else %}
@@ -42,7 +61,6 @@
             <p>© 2025 Система записи. Все права защищены.</p>
             <p>Административная панель версия 1.0.0</p>
             <ul class="footer-links">
-                <li><a href="#">Политика конфиденциальности</a></li>
                 <li><a href="#">Условия использования</a></li>
                 <li><a href="#">Поддержка</a></li>
             </ul>
