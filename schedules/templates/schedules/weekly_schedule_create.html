@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Создание нового расписания</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Основная информация -->
+        <div class="card mb-4">
+            <div class="card-header">Основные данные</div>
+            <div class="card-body">
+                {{ form.as_p }}
+            </div>
+        </div>
+        
+        <!-- Дни недели -->
+        <div class="card">
+            <div class="card-header">Расписание по дням</div>
+            <div class="card-body">
+                <div class="row">
+                    {% for day_name, day_form in daily_forms %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header">{{ day_name }}</div>
+                            <div class="card-body">
+                                {{ day_form.as_p }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+    </form>
+</div>
+{% endblock %}

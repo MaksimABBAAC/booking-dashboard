@@ -38,15 +38,3 @@ class MasterDetailView(DetailView):
         return get_object_or_404(Master, pk=self.kwargs.get('pk'))
 
 
-# class ScheduleCreateView(CreateView):
-#     model = Schedule
-#     form_class = ScheduleForm
-#     template_name = 'masters/schedule.html'
-#     success_url = reverse_lazy('schedule_list')
-
-
-# class ScheduleUpdateView(UpdateView):
-#     model = Schedule
-#     form_class = ScheduleForm
-#     template_name = 'masters/schedule.html'
-#     success_url = reverse_lazy('schedule_list')

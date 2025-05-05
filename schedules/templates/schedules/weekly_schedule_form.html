@@ -1,0 +1,31 @@
+<form method="post">
+    {% csrf_token %}
+    
+    <h3>{{ object.title }}</h3>
+    
+    <div class="week-container">
+        {% for day_num, day_name in DAYS_OF_WEEK %}
+            <div class="day-card">
+                <h4>{{ day_name }}</h4>
+                {% with day_form=form|get_item:"day_"|add:day_num|add:"_form" %}
+                    {{ day_form.as_p }}
+                {% endwith %}
+            </div>
+        {% endfor %}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+<style>
+    .week-container {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 15px;
+    }
+    .day-card {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+</style>
