@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/master.css' %}">
+    <link rel="stylesheet" href="{% static 'css/client.css' %}">
+{% endblock style %}
+
+{% block content %}
+<div class="client-profile">
+    <div class="client-header">
+        <h1 class="client-name">Клиент {{ client.number }}</h1>
+        <div class="client-details">
+            <p><strong>Telegram ID:</strong> {{ client.tg_id|default:"не указан" }}</p>
+        </div>
+    </div>
+    
+    <div class="client-info">
+        <h3>Дополнительная информация</h3>
+        <p>Здесь может быть дополнительная информация о клиенте...</p>
+    </div>
+    
+    <div class="action-buttons">
+        <a href="{% url 'clients:clients' %}" class="back-link ">← Вернуться к списку клиентов</a>
+    </div>
+</div>
+{% endblock content %}

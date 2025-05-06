@@ -1,4 +1,9 @@
 {% extends 'main/base.html' %}
+{% load static %}
+
+{% block style%}
+    <link rel="stylesheet" href="{% static "css/form.css" %}">  
+{%endblock style%}
 
 {% block content %}
 <h2>Создание нового расписания</h2>
@@ -55,7 +60,8 @@
         </div>
     </fieldset>
     
-    <button type="submit" style="margin-top: 20px; padding: 8px 15px; background: #007bff; color: white; border: none;">Сохранить</button>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{% url 'schedules:schedules' %}" class="btn btn-primary">Отмена</a>
 </form>
 
 <script>

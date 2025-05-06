@@ -53,7 +53,7 @@ class MasterDeleteView(DeleteView):
         except ProtectedError:
             messages.error(
                 request,
-                'Невозможно удалить мастера, так как у него есть связанные расписания'
+                'Невозможно удалить специалиста, так как у него есть связанные расписания'
             )
             return redirect('masters:masters')
 

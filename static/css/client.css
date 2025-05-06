@@ -1,0 +1,59 @@
+/* Добавьте это в ваш static/css/client.css */
+
+.master-profile, .client-profile {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.master-header, .client-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.master-name, .client-name {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.master-fullname, .client-details {
+    font-size: 18px;
+    color: #7f8c8d;
+    margin-bottom: 15px;
+}
+
+.master-description, .client-info {
+    margin-bottom: 30px;
+}
+
+.master-description h3, .client-info h3 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.master-description p, .client-info p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
