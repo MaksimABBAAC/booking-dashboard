@@ -23,11 +23,19 @@
             <tr>
                 <td>{{specialty.id}}</td>
                 <td>{{specialty.name}}</td>
-                <td>
-                    <a href="{% url "specialties:specialty_edit" specialty.id %}" class="btn-edit">✏️</a>
-                    <a href="#" class="btn-delete">🗑️</a>
+                <td class="actions">
+                    <a href="{% url 'specialties:specialty_edit' specialty.id %}" class="btn-action btn-edit">✏️</a>
+                    <form action="{% url 'specialties:specialty_delete' specialty.id %}" method="post" class="form-action">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-action btn-delete" onclick="return confirm('Удалить специальность?')">🗑️</button>
+                    </form>
                 </td>
             </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center;">Нет доступных специальностей</td>
+                </tr>
+                
             {% endfor %}
         </table>
     </div>

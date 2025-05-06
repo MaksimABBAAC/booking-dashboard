@@ -22,8 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # path('appointments/', include('appointments.urls', namespace='appointments')),
-    # path('clients/', include('clients.urls', namespace='clients')),
-    # path('statistics/', include('graphics.urls', namespace='statistics')),
+    path('', include('clients.urls', namespace='clients')),
     path('', include('main.urls', namespace='main')),
     path('', include('masters.urls', namespace='masters')),
     path('', include('specialties.urls', namespace='specialties')),

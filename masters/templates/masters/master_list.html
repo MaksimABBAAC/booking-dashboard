@@ -19,22 +19,31 @@
                 <td>surname</td>
                 <td>name</td>
                 <td>patronymic</td>
-                <td>description</td>
+                <td>specialty</td>
                 <td></td>
             </thead>
-            {% for master in masters  %}
-            <tr>
-                <td><a href="{% url 'masters:master' master.id %}">{{master.id}}</a></td>
-                <td>{{master.surname}}</td>
-                <td>{{master.name}}</td>
-                <td>{{master.patronymic}}</td>
-                <td>{{master.description}}</td>
-                <td>
-                    <a href="{% url "masters:master_edit" master.id %}" class="btn-edit">✏️</a>
-                    <a href="#" class="btn-delete">🗑️</a>
-                </td>
-            </tr>
-            {% endfor %}
+            <tbody>
+                {% for master in masters  %}
+                <tr>
+                    <td><a href="{% url 'masters:master' master.id %}">{{master.id}}</a></td>
+                    <td>{{master.surname}}</td>
+                    <td>{{master.name}}</td>
+                    <td>{{master.patronymic}}</td>
+                    <td>{{master.specialty.name}}</td>
+                    <td class="actions">
+                        <a href="{% url 'masters:master_edit' master.id %}" class="btn-action btn-edit">✏️</a>
+                        <form action="{% url 'masters:master_delete' master.id %}" method="post" class="form-action">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-action btn-delete" onclick="return confirm('Удалить специалиста?')">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center;">Нет доступных специалистов</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 {%endblock content%}

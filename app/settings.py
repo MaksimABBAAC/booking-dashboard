@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'main',
     'appointments',
     'clients',
-    'graphics',
     'masters',
     'specialties',
     'schedules'

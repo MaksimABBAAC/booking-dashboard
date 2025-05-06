@@ -1,4 +1,5 @@
-from django.views.generic import ListView, UpdateView, CreateView
+from django.http import Http404
+from django.views.generic import DeleteView, ListView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from .models import WeeklySchedule, DailySchedule
 from .forms import WeeklyScheduleCreateForm, DailyScheduleForm
@@ -18,7 +19,7 @@ class WeeklyScheduleListView(ListView):
 class WeeklyScheduleCreateView(CreateView):
     model = WeeklySchedule
     form_class = WeeklyScheduleCreateForm
-    template_name = 'schedules/weekly_schedule_create.html'
+    template_name = 'schedules/weekly_schedule_form.html'
     success_url = reverse_lazy('schedules:schedules')
 
     def get_context_data(self, **kwargs):
@@ -159,3 +160,14 @@ class WeeklyScheduleUpdateView(UpdateView):
                 day_instance.save()
         
         return response
+    
+class WeeklyScheduleDeleteView(DeleteView):
+    model = WeeklySchedule
+    template_name = 'schedules/schedules_confirm_delete.html'
+    success_url = reverse_lazy('schedules:schedules')
+    
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        if not obj:
+            raise Http404("Расписание не найдено")
+        return obj

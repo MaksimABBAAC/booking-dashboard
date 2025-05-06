@@ -42,9 +42,12 @@
                             <span class="status-inactive">Неактивно</span>
                         {% endif %}
                     </td>
-                    <td>
-                        <a href="{% url 'schedules:schedule_edit' schedule.id %}" class="btn-edit">✏️</a>
-                        <a href="#" class="btn-delete">🗑️</a>
+                    <td class="actions">
+                        <a href="{% url 'schedules:schedule_edit' schedule.id %}" class="btn-action btn-edit">✏️</a>
+                        <form action="{% url 'schedules:schedule_delete' schedule.id %}" method="post" class="form-action">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-action btn-delete" onclick="return confirm('Удалить расписание?')">🗑️</button>
+                        </form>
                     </td>
                 </tr>
                 {% empty %}
