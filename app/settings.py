@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'accounts',
     'main',
     'appointments',
     'clients',
@@ -56,9 +57,22 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'app.middleware.LoginRequiredMiddleware'
 ]
 
 ROOT_URLCONF = 'app.urls'
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = 'main:index'
+LOGOUT_REDIRECT_URL = 'main:index'
+
+OPEN_URLS = [
+    '/admin/',  
+    '/accounts/login/',
+    '/static/',
+    '//'
+
+]
 
 TEMPLATES = [
     {
