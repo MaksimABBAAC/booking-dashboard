@@ -70,8 +70,6 @@ OPEN_URLS = [
     '/admin/',  
     '/accounts/login/',
     '/static/',
-    '//'
-
 ]
 
 TEMPLATES = [

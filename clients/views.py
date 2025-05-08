@@ -1,9 +1,7 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView
 from .models import Client
 from django.urls import reverse_lazy
-from django.contrib import messages
-from django.db.models import ProtectedError
 from .forms import ClientForm
 
 class ClientListView(ListView):
