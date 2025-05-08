@@ -39,7 +39,7 @@
                 <form action="{% url 'accounts:logout' %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Выйти</button>
-                  </form>
+                </form>
                 {% else %}
                     <li><a href="{% url 'accounts:login' %}">Войти</a></li>
                 {% endif %}
@@ -54,12 +54,8 @@
     <!-- Футер -->
     <footer class="footer">
         <div class="footer-container">
-            <p>© 2025 Система записи. Все права защищены.</p>
+            <p>2025 Система записи.</p>
             <p>Административная панель версия 1.0.0</p>
-            <ul class="footer-links">
-                <li><a href="#">Условия использования</a></li>
-                <li><a href="#">Поддержка</a></li>
-            </ul>
         </div>
     </footer>
 </body>

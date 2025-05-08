@@ -162,3 +162,31 @@ body {
 .footer-links a:hover {
     text-decoration: underline;
 }
+/* Стили для кнопки выхода в меню */
+.nav-menu form {
+    margin-left: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu button[type="submit"] {
+    background: none;
+    border: none;
+    color: white;
+    font-size: inherit;
+    cursor: pointer;
+    padding: 10px 0;
+    transition: color 0.3s;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu button[type="submit"]:hover {
+    color: #3498db;
+}
+
+/* Убираем стандартные стили кнопки */
+.nav-menu button[type="submit"]:focus {
+    outline: none;
+}
