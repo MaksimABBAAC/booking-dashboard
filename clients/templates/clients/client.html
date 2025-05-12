@@ -3,6 +3,7 @@
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/client.css' %}">
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
 {% endblock style %}
 
 {% block content %}
@@ -15,12 +16,66 @@
     </div>
     
     <div class="client-info">
-        <h3>Дополнительная информация</h3>
-        <p>Здесь может быть дополнительная информация о клиенте...</p>
+        <h3>История записей</h3>
+        
+        <table class="appointments-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Дата</th>
+                    <th>Время</th>
+                    <th>Мастер</th>
+                    <th>Специальность</th>
+                    <th>Статус</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.id }}</td>
+                    <td>{{ appointment.date|date:"d.m.Y" }}</td>
+                    <td>{{ appointment.start_time|time:"H:i" }}-{{ appointment.end_time|time:"H:i" }}</td>
+                    <td>
+                        {% if appointment.master %}
+                        <a href="{% url 'masters:master' appointment.master.id %}">
+                            {{ appointment.master.surname }} {{ appointment.master.name }}
+                        </a>
+                        {% else %}
+                        Мастер удален
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if appointment.master and appointment.master.specialty %}
+                            {{ appointment.master.specialty.name }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="status-badge {% if appointment.is_available %}status-available{% else %}status-booked{% endif %}">
+                            {% if appointment.is_available %}Свободно{% else %}Забронировано{% endif %}
+                        </span>
+                    </td>
+                    <td class="actions">
+                        <a href="{% url 'appointments:appointment_edit' appointment.id %}" class="btn-action btn-edit">✏️</a>
+                        <form action="{% url 'appointments:appointment_delete' appointment.id %}" method="post" class="form-action">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-action btn-delete" onclick="return confirm('Отменить запись?')">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align: center;">Нет записей</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     
     <div class="action-buttons">
-        <a href="{% url 'clients:clients' %}" class="back-link ">← Вернуться к списку клиентов</a>
+        <a href="{% url 'clients:clients' %}" class="back-link">← Вернуться к списку клиентов</a>
     </div>
 </div>
 {% endblock content %}

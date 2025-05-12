@@ -12,3 +12,9 @@ class Client(models.Model):
 
     def __str__(self) -> str:
         return self.number
+    
+    @property
+    def appointments(self):
+        return self.appointment_set.all()
+    
+    

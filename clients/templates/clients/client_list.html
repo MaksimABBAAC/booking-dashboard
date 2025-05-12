@@ -1,20 +1,33 @@
 {% extends 'main/base.html' %}
 {% load static %}
 
-{% block style%}
-    <link rel="stylesheet" href="{% static "css/table.css" %}">  
-{%endblock style%}
-
-
+{% block style %}
+    <link rel="stylesheet" href="{% static "css/table.css" %}">
+    <link rel="stylesheet" href="{% static "css/search.css" %}">
+{% endblock %}
 
 {% block content %}
 <div class="content">
     <div class="table-header">
-        <h2>Список клиентов</h2>
-        <a href="{% url 'clients:client_add' %}" class="btn-add">
-            + Добавить клиента
-        </a>
+        <div class="header-row">
+            <h2>Список клиентов</h2>
+            <div class="header-actions">
+                <form method="get" action="{% url 'clients:clients' %}" class="search-form">
+                    <input type="text" 
+                           name="phone_search" 
+                           placeholder="Поиск по номеру или Telegram" 
+                           value="{{ search_query }}"
+                           class="search-input">
+                    <button type="submit" class="search-btn">🔍</button>
+                </form>
+                <a href="{% url 'clients:client_add' %}" class="btn-add">
+                    + Добавить клиента
+                </a>
+            </div>
+        </div>
     </div>
+    
+    {% if clients %}
     <table>
         <thead>
             <tr>
@@ -36,12 +49,15 @@
                     </form>
                 </td>
             </tr>
-            {% empty %}
-            <tr>
-                <td colspan="3">Нет доступных клиентов</td>
-            </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    
+    {% else %}
+    <div class="no-results">
+        <p>Клиенты не найдены{% if search_query %} по запросу "{{ search_query }}"{% endif %}</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

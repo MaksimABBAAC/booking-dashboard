@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/reshedule.css' %}">
+{% endblock style %}
+
+
+{% block content %}
+<div class="reschedule-container">
+    <h1 class="reschedule-title">Перенос записи клиента</h1>
+    
+    <div class="current-appointment">
+        <h3>Текущая запись:</h3>
+        <p><strong>Дата:</strong> {{ object.date|date:"d.m.Y" }}</p>
+        <p><strong>Время:</strong> {{ object.start_time|time:"H:i" }}-{{ object.end_time|time:"H:i" }}</p>
+        <p><strong>Мастер:</strong> {{ object.master.get_full_name }}</p>
+        <p><strong>Клиент:</strong> {{ object.client.number }}</p>
+    </div>
+    
+    <form method="post" class="reschedule-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="{{ form.new_slot.id_for_label }}">{{ form.new_slot.label }}</label>
+            {{ form.new_slot }}
+            {% if form.new_slot.errors %}
+            <div class="error-message">{{ form.new_slot.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Перенести запись</button>
+            <a href="{% url "clients:clients" %}" class="btn  btn-primary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

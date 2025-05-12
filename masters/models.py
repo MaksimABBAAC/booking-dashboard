@@ -16,4 +16,3 @@ class Master(models.Model):
 
     def __str__(self) -> str:
         return str(self.surname + ' ' + self.name + ' ' + self.patronymic)
-

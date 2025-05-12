@@ -33,7 +33,6 @@
                     
                 </li>
 
-                <li><a href="#">Записи</a></li>
                 <li><a href="{% url "clients:clients" %}">Клиенты</a></li>
                 {% if user.is_authenticated %}
                 <form action="{% url 'accounts:logout' %}" method="post">
