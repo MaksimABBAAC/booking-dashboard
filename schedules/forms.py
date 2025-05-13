@@ -17,7 +17,6 @@ class DailyScheduleForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Делаем поля необязательными, если день не рабочий
         if not self.instance or not self.instance.is_working:
             for field in ['start_time', 'end_time', 'appointment_duration', 'break_start', 'break_end']:
                 self.fields[field].required = False
@@ -26,7 +25,7 @@ class DailyScheduleForm(forms.ModelForm):
         cleaned_data = super().clean()
         is_working = cleaned_data.get('is_working')
         if not is_working:
-            return cleaned_data  # Пропускаем проверки для нерабочих дней
+            return cleaned_data
 
         start_time = cleaned_data.get('start_time')
         end_time = cleaned_data.get('end_time')
@@ -36,7 +35,6 @@ class DailyScheduleForm(forms.ModelForm):
 
         errors = {}
 
-        # Проверка рабочего времени
         if not start_time:
             errors['start_time'] = "Укажите время начала работы"
         if not end_time:
@@ -45,7 +43,6 @@ class DailyScheduleForm(forms.ModelForm):
         if start_time and end_time and start_time >= end_time:
             errors['end_time'] = "Время окончания должно быть позже времени начала"
 
-        # Проверка перерыва
         if break_start or break_end:
             if not break_start:
                 errors['break_start'] = "Укажите начало перерыва"
@@ -60,7 +57,6 @@ class DailyScheduleForm(forms.ModelForm):
                 if end_time and break_end > end_time:
                     errors['break_end'] = "Перерыв не может заканчиваться после окончания рабочего дня"
 
-        # Проверка длительности приема
         if duration and start_time and end_time:
             total_minutes = (end_time.hour - start_time.hour) * 60 + (end_time.minute - start_time.minute)
             if duration > total_minutes:
@@ -73,6 +69,8 @@ class DailyScheduleForm(forms.ModelForm):
             raise ValidationError(errors)
 
         return cleaned_data
+    
+
 class WeeklyScheduleCreateForm(forms.ModelForm):
     class Meta:
         model = WeeklySchedule
@@ -86,6 +84,7 @@ class WeeklyScheduleCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.daily_forms = []
+        
         for day_num, day_name in DailySchedule.DAYS_OF_WEEK:
             prefix = f'day_{day_num}'
             form = DailyScheduleForm(prefix=prefix)

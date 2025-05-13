@@ -6,15 +6,10 @@ class WeeklySchedule(models.Model):
     master = models.ForeignKey(
         Master,
         on_delete=models.CASCADE,
-        verbose_name='Мастер',
-        related_name='weekly_schedules'
     )
-    title = models.CharField(
-        max_length=100,
-        blank=True,
-    )
-    is_active = models.BooleanField(
-        default=True,
+    title = models.CharField(max_length=100)
+
+    is_active = models.BooleanField(default=True,
     )
 
     class Meta:
@@ -68,11 +63,13 @@ class DailySchedule(models.Model):
     )
     break_start = models.TimeField(
         'Начало перерыва',
+        default='12:00',
         blank=True,
         null=True
     )
     break_end = models.TimeField(
         'Конец перерыва',
+        default='13:00',
         blank=True,
         null=True
     )
@@ -85,4 +82,4 @@ class DailySchedule(models.Model):
 
     def __str__(self):
         return f'{self.get_day_of_week_display()} ({self.weekly_schedule})'
-    
+
