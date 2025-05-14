@@ -1,0 +1,150 @@
+/* client_profile.css - Стили для страницы профиля клиента */
+
+.client-profile {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.client-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.client-name {
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.client-details {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.client-details p {
+    margin: 8px 0;
+}
+
+/* Стили таблицы записей */
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.appointments-table th,
+.appointments-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.appointments-table th {
+    background-color: #2c3e50;
+    color: white;
+    font-weight: 500;
+}
+
+.appointments-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Стили для статусов */
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-available {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-booked {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+/* Стили для кнопок действий */
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.btn-edit {
+    background-color: #e3f2fd;
+    color: #1565c0;
+}
+
+.btn-edit:hover {
+    background-color: #bbdefb;
+}
+
+.btn-delete {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.btn-delete:hover {
+    background-color: #ffcdd2;
+}
+
+/* Форма в действиях таблицы */
+.form-action {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+/* Кнопка возврата */
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .client-profile {
+        padding: 20px;
+    }
+    
+    .appointments-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .actions {
+        flex-wrap: wrap;
+    }
+}

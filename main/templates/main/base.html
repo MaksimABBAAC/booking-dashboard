@@ -35,10 +35,12 @@
 
                 <li><a href="{% url "clients:clients" %}">Клиенты</a></li>
                 {% if user.is_authenticated %}
-                <form action="{% url 'accounts:logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Выйти</button>
-                </form>
+                <li class="nav-item">
+                    <form action="{% url 'accounts:logout' %}" method="post" class="nav-form">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link">Выйти</button>
+                    </form>
+                </li>
                 {% else %}
                     <li><a href="{% url 'accounts:login' %}">Войти</a></li>
                 {% endif %}

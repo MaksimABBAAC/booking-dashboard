@@ -1,10 +1,12 @@
 {% extends "main/base.html" %}
 {% load static %}
 
-{% block style%}
-    <link rel="stylesheet" href="{% static "css/index.css" %}">  
-{%endblock style%}
-{% block content%}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock style %}
+
+{% block content %}
     <main class="main-content">
         <div class="overlay-text">
             <h1>Добро пожаловать</h1>
@@ -12,4 +14,4 @@
                  Используйте меню выше для навигации по разделам.</p>
         </div>
     </main>
-{%endblock content%}
+{% endblock content %}
