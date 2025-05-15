@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 {% endblock style %}
 
 {% block content%}
@@ -19,24 +19,25 @@
                 <td>name</td>
                 <td></td>
             </thead>
-            {% for specialty in specialties  %}
-            <tr>
-                <td>{{specialty.id}}</td>
-                <td>{{specialty.name}}</td>
-                <td class="actions">
-                    <a href="{% url 'specialties:specialty_edit' specialty.id %}" class="btn-action btn-edit">✏️</a>
-                    <form action="{% url 'specialties:specialty_delete' specialty.id %}" method="post" class="form-action">
-                        {% csrf_token %}
-                        <button type="submit" class="btn-action btn-delete" onclick="return confirm('Удалить специальность?')">🗑️</button>
-                    </form>
-                </td>
-            </tr>
-            {% empty %}
+            {% if specialties %}
+                {% for specialty in specialties  %}
+                    <tr>
+                        <td>{{specialty.id}}</td>
+                        <td>{{specialty.name}}</td>
+                        <td class="actions">
+                            <a href="{% url 'specialties:specialty_edit' specialty.id %}" class="btn-action btn-edit">✏️</a>
+                            <form action="{% url 'specialties:specialty_delete' specialty.id %}" method="post" class="form-action">
+                                {% csrf_token %}
+                                <button type="submit" class="btn-action btn-delete" onclick="return confirm('Удалить специальность?')">🗑️</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
                 <tr>
-                    <td colspan="5" style="text-align: center;">Нет доступных специальностей</td>
+                    <td colspan="4" style="text-align: center;">Нет доступных специальностей</td>
                 </tr>
-                
-            {% endfor %}
+            {% endif %}
         </table>
     </div>
 {%endblock content%}

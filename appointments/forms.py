@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django import forms
 from django.utils import timezone
 from .models import Appointment
@@ -14,9 +15,6 @@ class BookingForm(forms.Form):
         max_length=100,
         required=False
     )
-
-
-
 
 class AppointmentRescheduleForm(forms.ModelForm):
     new_slot = forms.ModelChoiceField(
@@ -37,5 +35,5 @@ class AppointmentRescheduleForm(forms.ModelForm):
             self.fields['new_slot'].queryset = Appointment.objects.filter(
                 master=current_master,
                 is_available=True,
-                date__gte=timezone.now().date()
+                date__gte=timezone.now() + timedelta(days=1)
             ).exclude(pk=self.instance.pk).order_by('date', 'start_time')

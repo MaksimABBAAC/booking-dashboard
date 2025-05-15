@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from doctest import master
 from pathlib import Path
 
 
@@ -72,7 +71,7 @@ LOGIN_REDIRECT_URL = 'main:index'
 LOGOUT_REDIRECT_URL = 'main:index'
 
 OPEN_URLS = [
-    '/admin/',  
+    '/admin/', 
     '/accounts/login/',
     '/static/',
 ]

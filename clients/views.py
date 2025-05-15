@@ -1,13 +1,9 @@
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView
 
-from appointments.models import Appointment
-from masters.models import Master
 from .models import Client
 from django.urls import reverse_lazy
 from .forms import ClientForm
-from django.utils import timezone
 
 class ClientListView(ListView):
     model = Client

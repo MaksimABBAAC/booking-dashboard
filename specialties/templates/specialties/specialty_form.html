@@ -2,22 +2,22 @@
 {% load static %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 {% endblock style %}
 
 {% block content %}
-<div class="form-container">
-    <h2 class="form-title">Добавление специальности</h2>
-    <form method="post">
-        {% csrf_token %}
-        
-        <div class="form-group">
-            <label for="{{ form.name.id_for_label }}"> Специальность: </label>
-            {{ form.name }}
-        </div>
-        
-        <button type="submit" class="btn btn-primary">Сохранить</button>
-        <a href="{% url 'specialties:specialties' %}" class="btn btn-primary" style="margin-left: 10px;">Отмена</a>
-    </form>
-</div>
+    <div class="form-container">
+        <h2 class="form-title">Добавление специальности</h2>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}"> Специальность: </label>
+                {{ form.name }}
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="{% url 'specialties:specialties' %}" class="btn btn-primary" style="margin-left: 10px;">Отмена</a>
+        </form>
+    </div>
 {% endblock %}

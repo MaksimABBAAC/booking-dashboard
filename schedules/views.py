@@ -18,12 +18,6 @@ class WeeklyScheduleDeleteView(DeleteView):
     model = WeeklySchedule
     template_name = 'schedules/schedules_confirm_delete.html'
     success_url = reverse_lazy('schedules:schedules')
-    
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        if not obj:
-            raise Http404("Расписание не найдено")
-        return obj
 
 class BaseWeeklyScheduleView:
     def get_context_data(self, **kwargs) -> dict[str, Any]:

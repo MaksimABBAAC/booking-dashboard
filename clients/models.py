@@ -8,7 +8,6 @@ class Client(models.Model):
         verbose_name = "Клиент"
         verbose_name_plural = "Клиенты"
         db_table = 'clients'
-        ordering = ['number']
 
     def __str__(self) -> str:
         return self.number
@@ -16,5 +15,4 @@ class Client(models.Model):
     @property
     def appointments(self):
         return self.appointment_set.all()
-    
     

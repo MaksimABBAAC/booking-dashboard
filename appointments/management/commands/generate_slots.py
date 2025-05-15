@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         masters = Master.objects.all()
-        start_date = date.today()
+        start_date = date.today()+ timedelta(days=1)
         end_date = start_date + timedelta(days=14)
         
         for master in masters:

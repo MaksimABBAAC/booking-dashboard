@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, FormView, UpdateView
@@ -21,7 +22,7 @@ class AvailableAppointmentsList(generics.ListAPIView):
         
         queryset = Appointment.objects.filter(
             is_available=True,
-            date__gte=timezone.now().date()
+            date__gte=timezone.now() + timedelta(days=1)
         )
         
         if master_id:
@@ -50,7 +51,7 @@ class BookAppointmentView(APIView):
                 is_available=True
             )
             
-            client, created = Client.objects.get_or_create(
+            client, _ = Client.objects.get_or_create(
                 number=phone_number,
                 defaults={'tg_id': tg_id} if tg_id else {}
             )
@@ -88,7 +89,6 @@ class BookingView(FormView):
             appointment.is_available = False
             appointment.save()
             
-            messages.success(self.request, 'Вы успешно записаны!')
             return super().form_valid(form)
         
         except Appointment.DoesNotExist:
@@ -102,10 +102,9 @@ class BookingView(FormView):
             context['available_slots'] = Appointment.objects.filter(
                 master_id=master_id,
                 is_available=True,
-                date__gte=timezone.now().date()
+                date__gte=timezone.now() + timedelta(days=1)
             ).order_by('date', 'start_time')
             return context
-    
 
 class AppointmentUpdateView(UpdateView):
     model = Appointment
@@ -113,14 +112,12 @@ class AppointmentUpdateView(UpdateView):
     template_name = 'appointments/appointment_reschedule.html'
     
     def get_success_url(self):
-        # Сохраняем client_id до изменений
         client_id = self.original_client_id
         return reverse_lazy('clients:client', kwargs={'pk': client_id})
     
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['current_master'] = self.object.master
-        # Сохраняем исходного клиента перед изменением
         self.original_client_id = self.object.client.pk if self.object.client else None
         return kwargs
     
@@ -128,23 +125,17 @@ class AppointmentUpdateView(UpdateView):
         old_appointment = self.object
         new_slot = form.cleaned_data['new_slot']
         
-        # Проверяем, что новый слот свободен
         if not new_slot.is_available:
             form.add_error('new_slot', 'Этот слот уже занят')
             return self.form_invalid(form)
         
-        # Сохраняем клиента перед освобождением старого слота
-        client = old_appointment.client
-        
-        # Освобождаем старый слот
+        new_slot.client = old_appointment.client
+        new_slot.is_available = False
+        new_slot.save()
+
         old_appointment.client = None
         old_appointment.is_available = True
         old_appointment.save()
-        
-        # Занимаем новый слот
-        new_slot.client = client
-        new_slot.is_available = False
-        new_slot.save()
         
         messages.success(self.request, 'Запись успешно перенесена')
         return super().form_valid(form)

@@ -1,7 +1,7 @@
-from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.contrib.auth.views import redirect_to_login
 
 class LoginRequiredMiddleware:
     """
@@ -13,15 +13,12 @@ class LoginRequiredMiddleware:
         self.open_urls = [self.login_url] + getattr(settings, 'OPEN_URLS', [])
 
     def __call__(self, request):
-        # Проверяем, нужно ли требовать авторизацию для этого URL
         if not request.user.is_authenticated and not self.is_open_url(request.path):
-            # Перенаправляем на страницу входа
-            from django.contrib.auth.views import redirect_to_login
+            
             return redirect_to_login(request.get_full_path(), self.login_url)
         return self.get_response(request)
 
     def is_open_url(self, path):
-        """Проверяет, является ли URL открытым"""
         return any(
             path.startswith(url) or (url == '/' and path == '/')
             for url in self.open_urls

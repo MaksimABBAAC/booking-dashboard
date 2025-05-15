@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block style %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
 {% endblock style %}
 
 {% block content %}
@@ -26,7 +26,7 @@
         </div>
     </div>
     
-    {% if clients %}
+    
     <table>
         <thead>
             <tr>
@@ -36,6 +36,7 @@
             </tr>
         </thead>
         <tbody>
+            {% if clients %}
             {% for client in clients %}
             <tr>
                 <td><a href="{% url 'clients:client' client.pk %}">{{ client.number }}</a></td>
@@ -49,14 +50,16 @@
                 </td>
             </tr>
             {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan='3'>Клиенты не найдены{% if search_query %} по запросу "{{ search_query }}"{% endif %}</td>
+                </tr>
+                
+            {% endif %}
         </tbody>
     </table>
 
     
-    {% else %}
-    <div class="no-results">
-        <p>Клиенты не найдены{% if search_query %} по запросу "{{ search_query }}"{% endif %}</p>
-    </div>
-    {% endif %}
+    
 </div>
 {% endblock %}

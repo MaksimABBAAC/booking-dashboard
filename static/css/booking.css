@@ -136,13 +136,3 @@
     border: 1px solid #bce8f1;
 }
 
-/* Адаптация для мобильных */
-@media (max-width: 768px) {
-    .booking-columns {
-        flex-direction: column;
-    }
-    
-    .booking-container {
-        padding: 20px;
-    }
-}

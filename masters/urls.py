@@ -8,5 +8,5 @@ urlpatterns = [
     path('master/<int:pk>/', MasterDetailView.as_view(), name='master'),
     path('master/add/', MasterCreateView.as_view(), name='master_add'),
     path('master/<int:pk>/edit/', MasterUpdateView.as_view(), name='master_edit'),
-    path('<int:pk>/delete/', MasterDeleteView.as_view(), name='master_delete'),
+    path('master/<int:pk>/delete/', MasterDeleteView.as_view(), name='master_delete'),
 ]

@@ -1,8 +1,9 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
+from masters.models import Master
 from schedules.models import DailySchedule
 from .models import Appointment
 
-def generate_appointment_slots(master, start_date, end_date):
+def generate_appointment_slots(master: Master, start_date: datetime, end_date: datetime)-> None:
     """
     Генерация слотов для записи на основе расписания мастера
     между start_date и end_date
@@ -12,7 +13,7 @@ def generate_appointment_slots(master, start_date, end_date):
     
     while current_date <= end_date:
         day_of_week = current_date.weekday()
-        
+        print (day_of_week)
         try:
             daily_schedule = DailySchedule.objects.get(
                 weekly_schedule__master=master,
@@ -20,11 +21,9 @@ def generate_appointment_slots(master, start_date, end_date):
                 is_working=True
             )
             
-            # Генерация слотов на день
             generate_daily_slots(master, current_date, daily_schedule)
             
         except DailySchedule.DoesNotExist:
-            # Нет расписания на этот день недели
             pass
         
         current_date += delta
@@ -40,7 +39,6 @@ def generate_daily_slots(master, date, daily_schedule):
     end_datetime = datetime.combine(date, end_time)
     
     while current_time + timedelta(minutes=duration) <= end_datetime:
-        # Проверка на перерыв
         if break_start and break_end:
             break_start_dt = datetime.combine(date, break_start)
             break_end_dt = datetime.combine(date, break_end)
@@ -49,7 +47,6 @@ def generate_daily_slots(master, date, daily_schedule):
                 current_time = break_end_dt
                 continue
         
-        # Создание слота
         slot_end = current_time + timedelta(minutes=duration)
         
         Appointment.objects.get_or_create(

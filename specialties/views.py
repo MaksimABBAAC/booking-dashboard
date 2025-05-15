@@ -1,4 +1,3 @@
-from django.shortcuts import get_list_or_404, get_object_or_404
 from .models import Specialty
 from .forms import SpecialtyForm
 from django.urls import reverse_lazy
@@ -8,9 +7,6 @@ class SpecialtyListView(ListView):
     model = Specialty
     template_name = 'specialties/specialty_list.html'
     context_object_name = 'specialties'
-    
-    def get_queryset(self):
-        return Specialty.objects.all().order_by()
     
 class SpecialtyCreateView(CreateView):
     model = Specialty
