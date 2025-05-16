@@ -1,7 +1,8 @@
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 class Client(models.Model):
-    number = models.CharField('Номер телефона', max_length=12, unique=True)
+    number = PhoneNumberField(region='RU', verbose_name="Телефон", unique=True)
     tg_id = models.IntegerField(blank=True, null=True, verbose_name="Telegram ID")
     
     class Meta:
