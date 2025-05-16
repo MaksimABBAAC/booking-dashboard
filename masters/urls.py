@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import MasterListView, MasterCreateView, MasterDetailView, MasterUpdateView, MasterDeleteView
+from .views import APImaster, MasterListView, MasterCreateView, MasterDetailView, MasterUpdateView, MasterDeleteView
 
 app_name = 'masters'
 
 urlpatterns = [
+    path('API/masters/', APImaster.as_view(), name='masters'),
     path('masters/', MasterListView.as_view(), name='masters'),
     path('master/<int:pk>/', MasterDetailView.as_view(), name='master'),
     path('master/add/', MasterCreateView.as_view(), name='master_add'),

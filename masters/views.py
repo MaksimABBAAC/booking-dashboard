@@ -2,7 +2,10 @@ from .forms import MasterForm
 from .models import Master
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView
-
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import MasterSerializer
 
 class MasterListView(ListView):
     model = Master
@@ -30,3 +33,13 @@ class MasterDeleteView(DeleteView):
     model = Master
     template_name = 'masters/master_confirm_delete.html'
     success_url = reverse_lazy('masters:masters')
+
+
+
+class APImaster(generics.ListAPIView):
+    serializer_class = MasterSerializer
+
+    def get_queryset(self):
+        queryset = Master.objects.filter()
+
+        return queryset

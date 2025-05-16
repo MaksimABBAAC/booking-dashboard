@@ -352,49 +352,7 @@
   tr:hover {
     background-color: #f1f1f1;
   }
-  
-  /* ===== SPECIFIC PAGES ===== */
-  /* Booking form */
-  .booking-columns {
-    display: flex;
-    gap: 30px;
-  }
-  
-  .booking-slots-column, 
-  .booking-form-column {
-    flex: 1;
-  }
-  
-  .slots-list {
-    padding: 15px;
-    background-color: #f8f9fa;
-  }
-  
-  .slot-item {
-    display: block;
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s;
-    color: #34495e;
-  }
-  
-  .slot-item:hover {
-    background-color: #f0f0f0;
-    border-color: #3498db;
-  }
-  
-  .slot-item.active {
-    background-color: #3498db;
-    color: white;
-    border-color: #3498db;
-  }
-  
+
   /* Day groups in schedule */
   .day-group {
     margin-bottom: 15px;
