@@ -53,3 +53,4 @@ class ClientDeleteView(DeleteView):
     model = Client
     template_name = 'clients/client_confirm_delete.html'
     success_url = reverse_lazy('clients:clients')
+    

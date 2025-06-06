@@ -19,3 +19,9 @@ class ClientForm(forms.ModelForm):
             'number': 'Номер телефона',
             'tg_id': 'Telegram ID (необязательно)'
         }
+    def clean_number(self):
+        number = self.cleaned_data.get('number')
+        if Client.objects.filter(number=number).exists():
+            raise forms.ValidationError("Клиент с таким Телефоном уже существует.")  # Ваше собственное сообщение
+        return number
+        

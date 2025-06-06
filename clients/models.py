@@ -11,7 +11,7 @@ class Client(models.Model):
         db_table = 'clients'
 
     def __str__(self) -> str:
-        return self.number
+        return str(self.number)
     
     @property
     def appointments(self):
