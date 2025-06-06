@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from clients.forms import ClientForm
 from .models import Client
 
+
 @pytest.mark.django_db
 class TestClientViews:
 
