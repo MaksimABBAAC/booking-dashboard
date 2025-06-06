@@ -1,7 +1,6 @@
 import pytest
 from django.urls import reverse
 from django.contrib.auth.models import User
-from appointments.models import Appointment
 from clients.forms import ClientForm
 from .models import Client
 
