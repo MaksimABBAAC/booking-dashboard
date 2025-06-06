@@ -2,6 +2,7 @@ from .models import WeeklySchedule, DailySchedule
 from django import forms
 from django.core.exceptions import ValidationError
 
+
 class DailyScheduleForm(forms.ModelForm):
     class Meta:
         model = DailySchedule

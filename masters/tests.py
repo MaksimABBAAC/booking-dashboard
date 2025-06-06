@@ -104,7 +104,7 @@ class TestMasterAPI:
             specialty=specialty
         )
 
-    def test_api_master_list(self, api_client, master):
+    def test_api_master_list(self, api_client):
         url = reverse('masters:api_masters')
         response = api_client.get(url)
         assert response.status_code == status.HTTP_200_OK

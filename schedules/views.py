@@ -1,5 +1,4 @@
 from typing import Any
-from django.http import Http404
 from django.views.generic import DeleteView, ListView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from .models import WeeklySchedule, DailySchedule
