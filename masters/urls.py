@@ -4,7 +4,7 @@ from .views import APImaster, MasterListView, MasterCreateView, MasterDetailView
 app_name = 'masters'
 
 urlpatterns = [
-    path('API/masters/', APImaster.as_view(), name='masters'),
+    path('API/masters/', APImaster.as_view(), name='api_masters'),
     path('masters/', MasterListView.as_view(), name='masters'),
     path('master/<int:pk>/', MasterDetailView.as_view(), name='master'),
     path('master/add/', MasterCreateView.as_view(), name='master_add'),

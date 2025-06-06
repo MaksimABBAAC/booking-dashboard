@@ -74,6 +74,7 @@ OPEN_URLS = [
     '/admin/', 
     '/accounts/login/',
     '/static/',
+    '/API/'
 ]
 
 TEMPLATES = [

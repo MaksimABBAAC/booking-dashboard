@@ -5,14 +5,13 @@ from specialties.models import Specialty
 
 class MasterForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['specialty'].queryset = Specialty.objects.all()
+        self.fields['specialty'].empty_label = "Выберите специализацию"
+        self.fields['specialty'].label = "Специализация"
+
     class Meta:
-
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['specialty'].queryset = Specialty.objects.all()
-            self.fields['specialty'].empty_label = "Выберите специализацию"
-            self.fields['specialty'].label = "Специализация"
-
         model = Master
         fields = ['name', 'surname', 'patronymic', 'description', 'specialty']
         widgets = {
@@ -22,4 +21,4 @@ class MasterForm(forms.ModelForm):
             'description' : forms.Textarea(attrs={'cols': 60, 'rows': 10}),
             'specialty': forms.Select(attrs={'class': 'form-select'}),
         }
-            
+   
