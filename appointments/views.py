@@ -12,6 +12,7 @@ from .models import Appointment
 from .serializers import AppointmentSerializer
 from clients.models import Client
 from django.utils import timezone
+from phonenumbers import PhoneNumberFormat, parse, format_number
 
 class AvailableAppointmentsList(generics.ListAPIView):
     serializer_class = AppointmentSerializer
@@ -36,7 +37,8 @@ class AvailableAppointmentsList(generics.ListAPIView):
 class BookAppointmentView(APIView):
     def post(self, request):
         appointment_id = request.data.get('appointment_id')
-        phone_number = request.data.get('phone_number')
+        phone_number = parse(request.data.get['phone_number'], "RU")
+        phone_number = format_number(phone_number, PhoneNumberFormat.E164)
         tg_id = request.data.get('tg_id', None)
         
         if not appointment_id or not phone_number:
@@ -75,14 +77,19 @@ class BookingView(FormView):
 
     def form_valid(self, form):
         appointment_id = form.cleaned_data['appointment_id']
-        phone_number = form.cleaned_data['phone_number']
+        phone_number = parse(form.cleaned_data['phone_number'], "RU")
+        phone_number = format_number(phone_number, PhoneNumberFormat.E164)
         tg_id = form.cleaned_data.get('tg_id')
+
 
         try:
             appointment = Appointment.objects.get(id=appointment_id, is_available=True)
-            client, created = Client.objects.get_or_create(
+
+            tg_id = int(tg_id) if tg_id else None
+        
+            client, _ = Client.objects.get_or_create(
                 number=phone_number,
-                defaults={'tg_id': tg_id} if tg_id else {}
+                defaults={'tg_id': tg_id}
             )
             
             appointment.client = client

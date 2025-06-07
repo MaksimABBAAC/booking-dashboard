@@ -65,7 +65,6 @@
 </form>
 
 <script>
-    // Функция для переключения видимости полей дня
     function toggleDayFields(checkbox) {
         const dayCard = checkbox.closest('.day-card');
         const dayFields = dayCard.querySelector('.day-fields');
@@ -74,7 +73,6 @@
             dayFields.style.display = 'block';
             dayCard.style.background = 'white';
             
-            // Делаем поля обязательными
             dayFields.querySelectorAll('input, select').forEach(field => {
                 field.required = true;
             });
@@ -82,15 +80,13 @@
             dayFields.style.display = 'none';
             dayCard.style.background = '#f5f5f5';
             
-            // Делаем поля необязательными
             dayFields.querySelectorAll('input, select').forEach(field => {
                 field.required = false;
-                field.value = ''; // Очищаем значения
+                field.value = '';
             });
         }
     }
 
-    // Проверка времени при изменении
     document.querySelectorAll('input[type="time"]').forEach(input => {
         input.addEventListener('change', function() {
             const formGroup = this.closest('.form-group');
