@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from appointments.models import Appointment
 from appointments.utils import generate_appointment_slots
 from masters.models import Master
 from datetime import date, timedelta
@@ -14,3 +15,6 @@ class Command(BaseCommand):
         for master in masters:
             generate_appointment_slots(master, start_date, end_date)
             self.stdout.write(f'Сгенерированы слоты для мастера {master}')
+        
+        appointment_count = Appointment.objects.count()
+        self.stdout.write(f'Всего создано записей: {appointment_count}')

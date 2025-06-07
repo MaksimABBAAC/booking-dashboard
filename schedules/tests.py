@@ -37,7 +37,6 @@ class TestSchedule:
 @pytest.mark.django_db
 class TestWeeklyScheduleViews(TestSchedule):
 
-    
     def test_weekly_schedule_list_view(self, user, client):
         client.login(username='testuser', password='testpassword')
         response = client.get(reverse('schedules:schedules'))

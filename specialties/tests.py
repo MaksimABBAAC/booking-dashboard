@@ -6,6 +6,7 @@ from specialties.forms import SpecialtyForm
 
 
 class Test_specialty_model():
+    
     @pytest.mark.django_db
     def test_specialty_str_method(self):
         specialty = Specialty(name='test')
@@ -25,6 +26,7 @@ class Test_specialty_form():
         assert 'name' in form.errors
 
 class Test_specialty_views():
+
     @pytest.mark.django_db
     def test_specialty_list_view(self, client):
         user = User.objects.create_user(username='testuser', password='testpassword')
