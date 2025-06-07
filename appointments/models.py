@@ -1,5 +1,7 @@
+from datetime import datetime
 from django.db import models
 from django.forms import ValidationError
+from django.utils import timezone
 from clients.models import Client
 from masters.models import Master
 
@@ -36,6 +38,19 @@ class Appointment(models.Model):
         return f"{self.date} {self.start_time}-{self.end_time} - {self.master} ({status})"
     
     def clean(self):
+        if self.start_time and self.end_time:
+            start_datetime = timezone.make_aware(
+                datetime.combine(self.date, self.start_time)
+            )
+            end_datetime = timezone.make_aware(
+                datetime.combine(self.date, self.end_time)
+            )
+            
+            if end_datetime <= start_datetime:
+                raise ValidationError(
+                    "Время окончания должно быть позже времени начала"
+                )
+        
         if self.client and self.is_available:
             raise ValidationError("Нельзя иметь клиента и быть доступным одновременно")
         if not self.client and not self.is_available:

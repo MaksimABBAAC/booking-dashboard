@@ -1,17 +1,17 @@
 from django.core.management import call_command
 import json
+from django.db import IntegrityError
+from django.forms import ValidationError
 import pytest
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APIClient
 from schedules.models import DailySchedule, WeeklySchedule
 from specialties.models import Specialty
 from .models import Appointment
 from clients.models import Client
 from masters.models import Master
 from django.contrib.auth.models import User
-from appointments.management.commands.generate_slots import Command
-from datetime import datetime, timedelta, time
+from datetime import date, datetime, timedelta, time
 
 
 class TestAppointment:
@@ -57,7 +57,7 @@ class TestAppointment:
 @pytest.mark.django_db
 class TestAppointmentViews(TestAppointment):
 
-    def test_available_appointments_list(self, user, client, master, weekly_schedule):
+    def test_available_appointments_list_and_generate_slots(self, user, client, master, weekly_schedule):
         client.login(username='testuser', password='testpassword')
         call_command('generate_slots')
 
@@ -169,4 +169,155 @@ class TestAppointmentViews(TestAppointment):
         assert response.status_code == 302
         assert Appointment.objects.filter(id=appointment.id).count() == 0
 
+@pytest.mark.django_db
+class TestAppointmentModel(TestAppointment):
 
+    def test_appointment_creation(self, master):
+        appointment = Appointment.objects.create(
+            master=master,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=True
+        )
+        assert appointment.__str__() == "2023-01-01 10:00:00-11:00:00 - Иванов Иван Иванович (Свободно)"
+        assert Appointment.objects.count() == 1
+
+    def test_appointment_with_client(self, master, client_obj):
+        appointment = Appointment.objects.create(
+            master=master,
+            client=client_obj,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=False
+        )
+        assert "Занято" in appointment.__str__()
+
+@pytest.mark.django_db
+class TestAppointmentModel(TestAppointment):
+    
+    def test_create_available_appointment(self, master):
+        appt = Appointment.objects.create(
+            master=master,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=True
+        )
+        assert appt.is_available is True
+        assert appt.client is None
+        assert "Свободно" in str(appt)
+
+    def test_create_booked_appointment(self, master, client_obj):
+        appt = Appointment.objects.create(
+            master=master,
+            client=client_obj,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=False
+        )
+        assert appt.is_available is False
+        assert appt.client == client_obj
+    
+    def test_clean_valid_available(self, master):
+        appt = Appointment(
+            master=master,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=True
+        )
+        appt.full_clean()
+
+    def test_clean_valid_booked(self, master, client_obj):
+        appt = Appointment(
+            master=master,
+            client=client_obj,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=False
+        )
+        appt.full_clean()
+
+    def test_clean_invalid_available_with_client(self, master, client_obj):
+        appt = Appointment(
+            master=master,
+            client=client_obj,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=True
+        )
+        with pytest.raises(ValidationError) as excinfo:
+            appt.full_clean()
+        assert "Нельзя иметь клиента и быть доступным одновременно" in str(excinfo.value)
+
+    def test_clean_invalid_booked_without_client(self, master):
+        appt = Appointment(
+            master=master,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=False
+        )
+        with pytest.raises(ValidationError) as excinfo:
+            appt.full_clean()
+        assert "Нельзя быть занятым без клиента" in str(excinfo.value)
+
+    def test_unique_constraint(self, master):
+        Appointment.objects.create(
+            master=master,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=True
+        )
+        with pytest.raises(IntegrityError):
+            Appointment.objects.create(
+                master=master,
+                date=date(2023, 1, 1),
+                start_time=time(10, 0),
+                end_time=time(11, 30),
+                is_available=True
+            )
+
+    def test_time_validation(self, master):
+        from django.core.exceptions import ValidationError
+        
+        with pytest.raises(ValidationError) as excinfo:
+            appt = Appointment(
+                master=master,
+                date=date(2023, 1, 1),
+                start_time=time(11, 0),
+                end_time=time(10, 0),
+                is_available=True
+            )
+            appt.full_clean()
+        
+        assert "Время окончания должно быть позже времени начала" in str(excinfo.value)
+    
+    def test_master_relation(self, master):
+        appt = Appointment.objects.create(
+            master=master,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=True
+        )
+        assert appt in master.appointments.all()
+        assert appt.master == master
+
+    def test_client_relation(self, master, client_obj):
+        appt = Appointment.objects.create(
+            master=master,
+            client=client_obj,
+            date=date(2023, 1, 1),
+            start_time=time(10, 0),
+            end_time=time(11, 0),
+            is_available=False
+        )
+        assert appt in client_obj.appointments.all()
+        assert appt.client == client_obj
