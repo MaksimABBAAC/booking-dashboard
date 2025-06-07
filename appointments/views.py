@@ -99,6 +99,10 @@ class BookingView(FormView):
             return super().form_valid(form)
         
         except Appointment.DoesNotExist:
+            self.request.session['booking_form_data'] = {
+            'phone_number': self.request.POST.get('phone_number'),
+            'tg_id': self.request.POST.get('tg_id')
+            }
             messages.error(self.request, 'Это время уже занято, выберите другое')
             return self.form_invalid(form)
 
