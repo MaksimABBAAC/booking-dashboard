@@ -8,8 +8,7 @@ from datetime import time
 from .models import WeeklySchedule, DailySchedule
 
 
-@pytest.mark.django_db
-class TestWeeklyScheduleViews:
+class TestSchedule:
 
     @pytest.fixture
     def user(self):
@@ -33,6 +32,12 @@ class TestWeeklyScheduleViews:
     def weekly_schedule(self, master):
         return WeeklySchedule.objects.create(master=master, title='Test Schedule')
 
+
+
+@pytest.mark.django_db
+class TestWeeklyScheduleViews(TestSchedule):
+
+    
     def test_weekly_schedule_list_view(self, user, client):
         client.login(username='testuser', password='testpassword')
         response = client.get(reverse('schedules:schedules'))
@@ -131,25 +136,7 @@ class TestDailyScheduleForm:
 
 
 @pytest.mark.django_db
-class TestWeeklyScheduleCreateForm:
-
-    @pytest.fixture
-    def specialty(self):
-        return Specialty.objects.create(name='Тестовая специализация')
-
-    @pytest.fixture
-    def master(self, specialty):
-        return Master.objects.create(
-            name='Иван',
-            surname='Иванов',
-            patronymic='Иванович',
-            description='Описание мастера',
-            specialty=specialty
-        )
-
-    @pytest.fixture
-    def user(self):
-        return User.objects.create_user(username='testuser', password='testpassword')
+class TestWeeklyScheduleCreateForm(TestSchedule):
 
     def test_valid_data(self, user, master):
         form_data = {
@@ -188,29 +175,7 @@ class TestWeeklyScheduleCreateForm:
 
 
 @pytest.mark.django_db
-class TestWeeklyScheduleModel:
-
-    @pytest.fixture
-    def user(self):
-        return User.objects.create_user(username='testuser', password='testpassword')
-    
-    @pytest.fixture
-    def specialty(self):
-        return Specialty.objects.create(name='Тестовая специализация')
-
-    @pytest.fixture
-    def master(self, specialty):
-        return Master.objects.create(
-            name='Иван',
-            surname='Иванов',
-            patronymic='Иванович',
-            description='Описание мастера',
-            specialty=specialty
-        )
-
-    @pytest.fixture
-    def weekly_schedule(self, master):
-        return WeeklySchedule.objects.create(master=master, title='Test Schedule')
+class TestWeeklyScheduleModel(TestSchedule):
 
     def test_create_weekly_schedule(self, user, master):
         schedule = WeeklySchedule.objects.create(master=master, title='Test Schedule', is_active=True)
@@ -237,30 +202,7 @@ class TestWeeklyScheduleModel:
 
 
 @pytest.mark.django_db
-class TestDailyScheduleModel:
-    
-    @pytest.fixture
-    def user(self):
-        return User.objects.create_user(username='testuser', password='testpassword')
-    
-    @pytest.fixture
-    def specialty(self):
-        return Specialty.objects.create(name='Тестовая специализация')
-
-    @pytest.fixture
-    def master(self, specialty):
-        return Master.objects.create(
-            name='Иван',
-            surname='Иванов',
-            patronymic='Иванович',
-            description='Описание мастера',
-            specialty=specialty
-        )
-
-    @pytest.fixture
-
-    def weekly_schedule(self, master):
-        return WeeklySchedule.objects.create(master=master, title='Test Schedule')
+class TestDailyScheduleModel(TestSchedule):
 
     def test_create_daily_schedule(self, user, master):
         weekly = WeeklySchedule.objects.create(master=master, title='Weekly', is_active=True)
