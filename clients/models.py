@@ -3,7 +3,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Client(models.Model):
-    phone_number = PhoneNumberField(region="RU", verbose_name="Телефон", unique=True)
+    number = PhoneNumberField(region="RU", verbose_name="Телефон", unique=True)
     tg_id = models.IntegerField(blank=True, null=True, verbose_name="Telegram ID")
 
     class Meta:
