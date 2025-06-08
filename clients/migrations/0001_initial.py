@@ -7,22 +7,37 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Client',
+            name="Client",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.CharField(max_length=11, verbose_name='Номер телефона')),
-                ('tg_id', models.IntegerField(blank=True, null=True, verbose_name='Telegram ID')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "number",
+                    models.CharField(max_length=11, verbose_name="Номер телефона"),
+                ),
+                (
+                    "tg_id",
+                    models.IntegerField(
+                        blank=True, null=True, verbose_name="Telegram ID"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Клиент',
-                'verbose_name_plural': 'Клиенты',
-                'db_table': 'clients',
-                'ordering': ['number'],
+                "verbose_name": "Клиент",
+                "verbose_name_plural": "Клиенты",
+                "db_table": "clients",
+                "ordering": ["number"],
             },
         ),
     ]

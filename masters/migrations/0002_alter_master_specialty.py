@@ -7,14 +7,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('masters', '0001_initial'),
-        ('specialties', '0001_initial'),
+        ("masters", "0001_initial"),
+        ("specialties", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='master',
-            name='specialty',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='specialties.specialty'),
+            model_name="master",
+            name="specialty",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT, to="specialties.specialty"
+            ),
         ),
     ]

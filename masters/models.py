@@ -1,6 +1,7 @@
 from django.db import models
 from specialties.models import Specialty
 
+
 class Master(models.Model):
 
     name = models.CharField(max_length=150)
@@ -12,7 +13,7 @@ class Master(models.Model):
     class Meta:
         verbose_name = "master"
         verbose_name_plural = "masters"
-        db_table = 'masters'
+        db_table = "masters"
 
     def __str__(self) -> str:
-        return str(self.surname + ' ' + self.name + ' ' + self.patronymic)
+        return str(self.surname + " " + self.name + " " + self.patronymic)

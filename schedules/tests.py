@@ -12,71 +12,78 @@ class TestSchedule:
 
     @pytest.fixture
     def user(self):
-        return User.objects.create_user(username='testuser', password='testpassword')
-    
+        return User.objects.create_user(username="testuser", password="testpassword")
+
     @pytest.fixture
     def specialty(self):
-        return Specialty.objects.create(name='Тестовая специализация')
+        return Specialty.objects.create(name="Тестовая специализация")
 
     @pytest.fixture
     def master(self, specialty):
         return Master.objects.create(
-            name='Иван',
-            surname='Иванов',
-            patronymic='Иванович',
-            description='Описание мастера',
-            specialty=specialty
+            name="Иван",
+            surname="Иванов",
+            patronymic="Иванович",
+            description="Описание мастера",
+            specialty=specialty,
         )
 
     @pytest.fixture
     def weekly_schedule(self, master):
-        return WeeklySchedule.objects.create(master=master, title='Test Schedule')
-
+        return WeeklySchedule.objects.create(master=master, title="Test Schedule")
 
 
 @pytest.mark.django_db
 class TestWeeklyScheduleViews(TestSchedule):
 
     def test_weekly_schedule_list_view(self, user, client):
-        client.login(username='testuser', password='testpassword')
-        response = client.get(reverse('schedules:schedules'))
+        client.login(username="testuser", password="testpassword")
+        response = client.get(reverse("schedules:schedules"))
         assert response.status_code == 200
-        assert 'schedules/weekly_schedule_list.html' in [t.name for t in response.templates]
+        assert "schedules/weekly_schedule_list.html" in [
+            t.name for t in response.templates
+        ]
 
     def test_weekly_schedule_create_view(self, user, client, master):
-        client.login(username='testuser', password='testpassword')
-        url = reverse('schedules:schedule_add')
-        response = client.post(url, {
-            'master': master.id,
-            'title': 'New Schedule',
-            'is_active': True,
-        })
+        client.login(username="testuser", password="testpassword")
+        url = reverse("schedules:schedule_add")
+        response = client.post(
+            url,
+            {
+                "master": master.id,
+                "title": "New Schedule",
+                "is_active": True,
+            },
+        )
         assert response.status_code == 302
-        assert WeeklySchedule.objects.filter(title='New Schedule').exists()
+        assert WeeklySchedule.objects.filter(title="New Schedule").exists()
 
     def test_weekly_schedule_update_view(self, user, client, weekly_schedule):
-        client.login(username='testuser', password='testpassword')
-        url = reverse('schedules:schedule_edit', kwargs={'pk': weekly_schedule.pk})
-        response = client.post(url, {
-            'master': weekly_schedule.master.id,
-            'title': 'Updated Schedule',
-            'is_active': True,
-        })
+        client.login(username="testuser", password="testpassword")
+        url = reverse("schedules:schedule_edit", kwargs={"pk": weekly_schedule.pk})
+        response = client.post(
+            url,
+            {
+                "master": weekly_schedule.master.id,
+                "title": "Updated Schedule",
+                "is_active": True,
+            },
+        )
         assert response.status_code == 302
         weekly_schedule.refresh_from_db()
-        assert weekly_schedule.title == 'Updated Schedule'
+        assert weekly_schedule.title == "Updated Schedule"
 
     def test_delete_schedule(self, user, client, weekly_schedule):
-        client.login(username='testuser', password='testpassword')
+        client.login(username="testuser", password="testpassword")
 
         assert WeeklySchedule.objects.filter(pk=weekly_schedule.pk).exists()
 
-        url = reverse('schedules:schedule_delete', kwargs={'pk': weekly_schedule.pk})
+        url = reverse("schedules:schedule_delete", kwargs={"pk": weekly_schedule.pk})
         response = client.post(url)
 
         assert not WeeklySchedule.objects.filter(pk=weekly_schedule.pk).exists()
         assert response.status_code == 302
-        assert response.url == reverse('schedules:schedules')
+        assert response.url == reverse("schedules:schedules")
 
 
 @pytest.mark.django_db
@@ -84,54 +91,54 @@ class TestDailyScheduleForm:
 
     def test_valid_data(self):
         form_data = {
-            'is_working': True,
-            'start_time': time(9, 0),
-            'end_time': time(18, 0),
-            'appointment_duration': 30,
-            'break_start': time(12, 0),
-            'break_end': time(13, 0),
+            "is_working": True,
+            "start_time": time(9, 0),
+            "end_time": time(18, 0),
+            "appointment_duration": 30,
+            "break_start": time(12, 0),
+            "break_end": time(13, 0),
         }
         form = DailyScheduleForm(data=form_data)
         assert form.is_valid()
 
     def test_invalid_end_time_before_start(self):
         form_data = {
-            'is_working': True,
-            'start_time': time(9, 0),
-            'end_time': time(8, 0),
-            'appointment_duration': 30,
-            'break_start': time(12, 0),
-            'break_end': time(13, 0),
+            "is_working": True,
+            "start_time": time(9, 0),
+            "end_time": time(8, 0),
+            "appointment_duration": 30,
+            "break_start": time(12, 0),
+            "break_end": time(13, 0),
         }
         form = DailyScheduleForm(data=form_data)
         assert not form.is_valid()
-        assert 'end_time' in form.errors
+        assert "end_time" in form.errors
 
     def test_invalid_break_times(self):
         form_data = {
-            'is_working': True,
-            'start_time': time(9, 0),
-            'end_time': time(18, 0),
-            'appointment_duration': 30,
-            'break_start': time(14, 0),
-            'break_end': time(13, 0),
+            "is_working": True,
+            "start_time": time(9, 0),
+            "end_time": time(18, 0),
+            "appointment_duration": 30,
+            "break_start": time(14, 0),
+            "break_end": time(13, 0),
         }
         form = DailyScheduleForm(data=form_data)
         assert not form.is_valid()
-        assert 'break_end' in form.errors
+        assert "break_end" in form.errors
 
     def test_appointment_duration_longer_than_workday(self):
         form_data = {
-            'is_working': True,
-            'start_time': time(9, 0),
-            'end_time': time(10, 0),
-            'appointment_duration': 120,
-            'break_start': time(9, 30),
-            'break_end': time(9, 45),
+            "is_working": True,
+            "start_time": time(9, 0),
+            "end_time": time(10, 0),
+            "appointment_duration": 120,
+            "break_start": time(9, 30),
+            "break_end": time(9, 45),
         }
         form = DailyScheduleForm(data=form_data)
         assert not form.is_valid()
-        assert 'appointment_duration' in form.errors
+        assert "appointment_duration" in form.errors
 
 
 @pytest.mark.django_db
@@ -139,61 +146,67 @@ class TestWeeklyScheduleCreateForm(TestSchedule):
 
     def test_valid_data(self, user, master):
         form_data = {
-            'master': master.id,
-            'title': 'Valid Schedule',
-            'is_active': True,
+            "master": master.id,
+            "title": "Valid Schedule",
+            "is_active": True,
         }
         form = WeeklyScheduleCreateForm(data=form_data)
         assert form.is_valid()
 
     def test_missing_master(self):
         form_data = {
-            'master': '',
-            'title': 'Schedule without Master',
-            'is_active': True,
+            "master": "",
+            "title": "Schedule without Master",
+            "is_active": True,
         }
         form = WeeklyScheduleCreateForm(data=form_data)
         assert not form.is_valid()
-        assert 'master' in form.errors
+        assert "master" in form.errors
 
     def test_missing_title(self, user):
         form_data = {
-            'master': user.id,
-            'title': '',
-            'is_active': True,
+            "master": user.id,
+            "title": "",
+            "is_active": True,
         }
         form = WeeklyScheduleCreateForm(data=form_data)
         assert not form.is_valid()
-        assert 'title' in form.errors
+        assert "title" in form.errors
 
     def test_empty_form(self):
         form = WeeklyScheduleCreateForm(data={})
         assert not form.is_valid()
-        assert 'master' in form.errors
-        assert 'title' in form.errors
+        assert "master" in form.errors
+        assert "title" in form.errors
 
 
 @pytest.mark.django_db
 class TestWeeklyScheduleModel(TestSchedule):
 
     def test_create_weekly_schedule(self, user, master):
-        schedule = WeeklySchedule.objects.create(master=master, title='Test Schedule', is_active=True)
+        schedule = WeeklySchedule.objects.create(
+            master=master, title="Test Schedule", is_active=True
+        )
         assert schedule.pk is not None
         assert schedule.master == master
-        assert schedule.title == 'Test Schedule'
+        assert schedule.title == "Test Schedule"
         assert schedule.is_active is True
 
     def test_update_weekly_schedule(self, user, master):
-        schedule = WeeklySchedule.objects.create(master=master, title='Old Title', is_active=False)
-        schedule.title = 'New Title'
+        schedule = WeeklySchedule.objects.create(
+            master=master, title="Old Title", is_active=False
+        )
+        schedule.title = "New Title"
         schedule.is_active = True
         schedule.save()
         updated = WeeklySchedule.objects.get(pk=schedule.pk)
-        assert updated.title == 'New Title'
+        assert updated.title == "New Title"
         assert updated.is_active is True
 
     def test_delete_weekly_schedule(self, user, master):
-        schedule = WeeklySchedule.objects.create(master=master, title='To Delete', is_active=True)
+        schedule = WeeklySchedule.objects.create(
+            master=master, title="To Delete", is_active=True
+        )
         pk = schedule.pk
         schedule.delete()
         with pytest.raises(WeeklySchedule.DoesNotExist):
@@ -204,7 +217,9 @@ class TestWeeklyScheduleModel(TestSchedule):
 class TestDailyScheduleModel(TestSchedule):
 
     def test_create_daily_schedule(self, user, master):
-        weekly = WeeklySchedule.objects.create(master=master, title='Weekly', is_active=True)
+        weekly = WeeklySchedule.objects.create(
+            master=master, title="Weekly", is_active=True
+        )
         daily = DailySchedule.objects.create(
             weekly_schedule=weekly,
             is_working=True,
@@ -225,7 +240,9 @@ class TestDailyScheduleModel(TestSchedule):
         assert daily.break_end == time(13, 0)
 
     def test_update_daily_schedule(self, user, master):
-        weekly = WeeklySchedule.objects.create(master=master, title='Weekly2', is_active=True)
+        weekly = WeeklySchedule.objects.create(
+            master=master, title="Weekly2", is_active=True
+        )
         daily = DailySchedule.objects.create(
             weekly_schedule=weekly,
             is_working=True,
@@ -244,7 +261,9 @@ class TestDailyScheduleModel(TestSchedule):
         assert updated.end_time == time(17, 0)
 
     def test_delete_daily_schedule(self, user, master):
-        weekly = WeeklySchedule.objects.create(master=master, title='Weekly3', is_active=True)
+        weekly = WeeklySchedule.objects.create(
+            master=master, title="Weekly3", is_active=True
+        )
         daily = DailySchedule.objects.create(
             weekly_schedule=weekly,
             is_working=False,

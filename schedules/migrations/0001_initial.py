@@ -10,42 +10,126 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('masters', '0001_initial'),
+        ("masters", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='WeeklySchedule',
+            name="WeeklySchedule",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(blank=True, max_length=100)),
-                ('is_active', models.BooleanField(default=True)),
-                ('master', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='weekly_schedules', to='masters.master', verbose_name='Мастер')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(blank=True, max_length=100)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "master",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="weekly_schedules",
+                        to="masters.master",
+                        verbose_name="Мастер",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Недельное расписание',
-                'verbose_name_plural': 'Недельные расписания',
-                'ordering': ['master', 'title'],
+                "verbose_name": "Недельное расписание",
+                "verbose_name_plural": "Недельные расписания",
+                "ordering": ["master", "title"],
             },
         ),
         migrations.CreateModel(
-            name='DailySchedule',
+            name="DailySchedule",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('day_of_week', models.IntegerField(choices=[(0, 'Понедельник'), (1, 'Вторник'), (2, 'Среда'), (3, 'Четверг'), (4, 'Пятница'), (5, 'Суббота'), (6, 'Воскресенье')], verbose_name='День недели')),
-                ('is_working', models.BooleanField(default=True, verbose_name='Рабочий день')),
-                ('start_time', models.TimeField(blank=True, default='09:00', null=True, verbose_name='Начало работы')),
-                ('end_time', models.TimeField(blank=True, default='18:00', null=True, verbose_name='Окончание работы')),
-                ('appointment_duration', models.PositiveIntegerField(default=30, validators=[django.core.validators.MinValueValidator(5), django.core.validators.MaxValueValidator(240)], verbose_name='Длительность приёма (мин)')),
-                ('break_start', models.TimeField(blank=True, null=True, verbose_name='Начало перерыва')),
-                ('break_end', models.TimeField(blank=True, null=True, verbose_name='Конец перерыва')),
-                ('weekly_schedule', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='days', to='schedules.weeklyschedule')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "day_of_week",
+                    models.IntegerField(
+                        choices=[
+                            (0, "Понедельник"),
+                            (1, "Вторник"),
+                            (2, "Среда"),
+                            (3, "Четверг"),
+                            (4, "Пятница"),
+                            (5, "Суббота"),
+                            (6, "Воскресенье"),
+                        ],
+                        verbose_name="День недели",
+                    ),
+                ),
+                (
+                    "is_working",
+                    models.BooleanField(default=True, verbose_name="Рабочий день"),
+                ),
+                (
+                    "start_time",
+                    models.TimeField(
+                        blank=True,
+                        default="09:00",
+                        null=True,
+                        verbose_name="Начало работы",
+                    ),
+                ),
+                (
+                    "end_time",
+                    models.TimeField(
+                        blank=True,
+                        default="18:00",
+                        null=True,
+                        verbose_name="Окончание работы",
+                    ),
+                ),
+                (
+                    "appointment_duration",
+                    models.PositiveIntegerField(
+                        default=30,
+                        validators=[
+                            django.core.validators.MinValueValidator(5),
+                            django.core.validators.MaxValueValidator(240),
+                        ],
+                        verbose_name="Длительность приёма (мин)",
+                    ),
+                ),
+                (
+                    "break_start",
+                    models.TimeField(
+                        blank=True, null=True, verbose_name="Начало перерыва"
+                    ),
+                ),
+                (
+                    "break_end",
+                    models.TimeField(
+                        blank=True, null=True, verbose_name="Конец перерыва"
+                    ),
+                ),
+                (
+                    "weekly_schedule",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="days",
+                        to="schedules.weeklyschedule",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Дневное расписание',
-                'verbose_name_plural': 'Дневные расписания',
-                'ordering': ['day_of_week'],
-                'unique_together': {('weekly_schedule', 'day_of_week')},
+                "verbose_name": "Дневное расписание",
+                "verbose_name_plural": "Дневные расписания",
+                "ordering": ["day_of_week"],
+                "unique_together": {("weekly_schedule", "day_of_week")},
             },
         ),
     ]
