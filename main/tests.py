@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
-class Test_index:
+class TestIndex:
     @pytest.mark.django_db
     def test_index_view_status_code(self, client):
-        user = User.objects.create_user(username="testuser", password="testpassword")
+        User.objects.create_user(username="testuser", password="testpassword")
         client.login(username="testuser", password="testpassword")
         url = reverse("main:index")
         response = client.get(url)

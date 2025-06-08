@@ -6,15 +6,13 @@ from specialties.forms import SpecialtyForm
 from specialties.models import Specialty
 
 
-class Test_specialty_model:
-
-    @pytest.mark.django_db
-    def test_specialty_str_method(self):
-        specialty = Specialty(name="test")
-        assert str(specialty) == "test"
+@pytest.mark.django_db
+def test_specialty_str_method():
+    specialty = Specialty(name="test")
+    assert str(specialty) == "test"
 
 
-class Test_specialty_form:
+class TestSpecialtyForm:
     def test_specialty_form_valid_data(self):
         form_data = {"name": "test"}
         form = SpecialtyForm(data=form_data)
@@ -28,11 +26,11 @@ class Test_specialty_form:
         assert "name" in form.errors
 
 
-class Test_specialty_views:
+class TestSpecialtyViews:
 
     @pytest.mark.django_db
     def test_specialty_list_view(self, client):
-        user = User.objects.create_user(username="testuser", password="testpassword")
+        User.objects.create_user(username="testuser", password="testpassword")
         client.login(username="testuser", password="testpassword")
         Specialty.objects.create(name="test")
         response = client.get(reverse("specialties:specialties"))
@@ -42,7 +40,7 @@ class Test_specialty_views:
 
     @pytest.mark.django_db
     def test_specialty_create_view(self, client):
-        user = User.objects.create_user(username="testuser", password="testpassword")
+        User.objects.create_user(username="testuser", password="testpassword")
         client.login(username="testuser", password="testpassword")
         response = client.post(reverse("specialties:specialty_add"), {"name": "test"})
         assert response.status_code == 302
@@ -51,7 +49,7 @@ class Test_specialty_views:
 
     @pytest.mark.django_db
     def test_specialty_update_view(self, client):
-        user = User.objects.create_user(username="testuser", password="testpassword")
+        User.objects.create_user(username="testuser", password="testpassword")
         client.login(username="testuser", password="testpassword")
         specialty = Specialty.objects.create(name="test")
         response = client.post(
@@ -64,7 +62,7 @@ class Test_specialty_views:
 
     @pytest.mark.django_db
     def test_specialty_delete_view(self, client):
-        user = User.objects.create_user(username="testuser", password="testpassword")
+        User.objects.create_user(username="testuser", password="testpassword")
         client.login(username="testuser", password="testpassword")
         specialty = Specialty.objects.create(name="test")
         response = client.post(

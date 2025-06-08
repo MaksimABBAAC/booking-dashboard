@@ -96,7 +96,7 @@ class TestAppointmentViews(TestAppointment):
             reverse("appointments:book-appointment"),
             {
                 "appointment_id": appointment.id,
-                "phone_number": "+7 777 7777 777",
+                "phone_number": "87777777777",
                 "tg_id": 123,
             },
         )

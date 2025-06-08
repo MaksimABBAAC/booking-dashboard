@@ -40,7 +40,7 @@ class AvailableAppointmentsList(generics.ListAPIView):
 class BookAppointmentView(APIView):
     def post(self, request):
         appointment_id = request.data.get("appointment_id")
-        phone_number = parse(request.data.get["phone_number"], "RU")
+        phone_number = parse(request.data.get("phone_number"), "RU")
         phone_number = format_number(phone_number, PhoneNumberFormat.E164)
         tg_id = request.data.get("tg_id", None)
 
@@ -77,7 +77,7 @@ class BookingView(FormView):
 
     def form_valid(self, form):
         appointment_id = form.cleaned_data["appointment_id"]
-        phone_number = parse(form.cleaned_data["phone_number"], "RU")
+        phone_number = parse(form.cleaned_data("phone_number"), "RU")
         phone_number = format_number(phone_number, PhoneNumberFormat.E164)
         tg_id = form.cleaned_data.get("tg_id")
 
