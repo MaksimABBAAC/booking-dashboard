@@ -1,11 +1,7 @@
 from django.urls import path
-from .views import (
-    WeeklyScheduleCreateView,
-    WeeklyScheduleDeleteView,
-    WeeklyScheduleListView,
-    WeeklyScheduleUpdateView,
-)
 
+from .views import (WeeklyScheduleCreateView, WeeklyScheduleDeleteView,
+                    WeeklyScheduleListView, WeeklyScheduleUpdateView)
 
 app_name = "schedules"
 

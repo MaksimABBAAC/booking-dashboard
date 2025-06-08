@@ -1,6 +1,7 @@
-from .models import WeeklySchedule, DailySchedule
 from django import forms
 from django.core.exceptions import ValidationError
+
+from .models import DailySchedule, WeeklySchedule
 
 
 class DailyScheduleForm(forms.ModelForm):

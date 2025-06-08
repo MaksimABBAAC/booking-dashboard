@@ -1,11 +1,14 @@
+from datetime import time
+
 import pytest
-from django.urls import reverse
 from django.contrib.auth.models import User
+from django.urls import reverse
+
 from masters.models import Master
 from specialties.models import Specialty
-from .forms import WeeklyScheduleCreateForm, DailyScheduleForm
-from datetime import time
-from .models import WeeklySchedule, DailySchedule
+
+from .forms import DailyScheduleForm, WeeklyScheduleCreateForm
+from .models import DailySchedule, WeeklySchedule
 
 
 class TestSchedule:

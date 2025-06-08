@@ -1,18 +1,20 @@
 from datetime import timedelta
+
 from django.contrib import messages
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import DeleteView, FormView, UpdateView
+from phonenumbers import PhoneNumberFormat, format_number, parse
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from appointments.forms import AppointmentRescheduleForm, BookingForm
+from clients.models import Client
 from masters.models import Master
+
 from .models import Appointment
 from .serializers import AppointmentSerializer
-from clients.models import Client
-from django.utils import timezone
-from phonenumbers import PhoneNumberFormat, parse, format_number
 
 
 class AvailableAppointmentsList(generics.ListAPIView):

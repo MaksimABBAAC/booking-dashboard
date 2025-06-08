@@ -1,8 +1,9 @@
 import pytest
-from django.urls import reverse
 from django.contrib.auth.models import User
-from specialties.models import Specialty
+from django.urls import reverse
+
 from specialties.forms import SpecialtyForm
+from specialties.models import Specialty
 
 
 class Test_specialty_model:

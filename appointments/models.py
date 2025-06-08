@@ -1,7 +1,9 @@
 from datetime import datetime
+
 from django.db import models
 from django.forms import ValidationError
 from django.utils import timezone
+
 from clients.models import Client
 from masters.models import Master
 

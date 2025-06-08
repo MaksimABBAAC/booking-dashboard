@@ -1,7 +1,8 @@
-from .models import Specialty
-from .forms import SpecialtyForm
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, UpdateView, ListView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+
+from .forms import SpecialtyForm
+from .models import Specialty
 
 
 class SpecialtyListView(ListView):

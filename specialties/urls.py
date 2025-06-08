@@ -1,10 +1,7 @@
 from django.urls import path
-from .views import (
-    SpecialtyDeleteView,
-    SpecialtyListView,
-    SpecialtyCreateView,
-    SpecialtyUpdateView,
-)
+
+from .views import (SpecialtyCreateView, SpecialtyDeleteView,
+                    SpecialtyListView, SpecialtyUpdateView)
 
 app_name = "specialties"
 

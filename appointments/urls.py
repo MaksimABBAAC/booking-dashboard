@@ -1,11 +1,8 @@
 from django.urls import path
-from .views import (
-    AppointmentDeleteView,
-    AppointmentUpdateView,
-    AvailableAppointmentsList,
-    BookAppointmentView,
-    BookingView,
-)
+
+from .views import (AppointmentDeleteView, AppointmentUpdateView,
+                    AvailableAppointmentsList, BookAppointmentView,
+                    BookingView)
 
 app_name = "appointments"
 

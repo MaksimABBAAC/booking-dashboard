@@ -1,8 +1,10 @@
 from typing import Any
-from django.views.generic import DeleteView, ListView, UpdateView, CreateView
+
 from django.urls import reverse_lazy
-from .models import WeeklySchedule, DailySchedule
-from .forms import WeeklyScheduleCreateForm, DailyScheduleForm
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+
+from .forms import DailyScheduleForm, WeeklyScheduleCreateForm
+from .models import DailySchedule, WeeklySchedule
 
 
 class WeeklyScheduleListView(ListView):

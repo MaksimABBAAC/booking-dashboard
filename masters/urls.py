@@ -1,12 +1,7 @@
 from django.urls import path
-from .views import (
-    APImaster,
-    MasterListView,
-    MasterCreateView,
-    MasterDetailView,
-    MasterUpdateView,
-    MasterDeleteView,
-)
+
+from .views import (APImaster, MasterCreateView, MasterDeleteView,
+                    MasterDetailView, MasterListView, MasterUpdateView)
 
 app_name = "masters"
 

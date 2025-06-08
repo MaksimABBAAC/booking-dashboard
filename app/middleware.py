@@ -1,7 +1,7 @@
 from django.conf import settings
+from django.contrib.auth.views import redirect_to_login
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.contrib.auth.views import redirect_to_login
 
 
 class LoginRequiredMiddleware:

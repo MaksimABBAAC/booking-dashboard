@@ -1,4 +1,5 @@
 from django.db import models
+
 from specialties.models import Specialty
 
 

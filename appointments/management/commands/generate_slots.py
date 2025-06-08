@@ -1,8 +1,10 @@
+from datetime import date, timedelta
+
 from django.core.management.base import BaseCommand
+
 from appointments.models import Appointment
 from appointments.utils import generate_appointment_slots
 from masters.models import Master
-from datetime import date, timedelta
 
 
 class Command(BaseCommand):

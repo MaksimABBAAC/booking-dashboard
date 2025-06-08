@@ -1,6 +1,8 @@
 from datetime import date, datetime, timedelta
+
 from masters.models import Master
 from schedules.models import DailySchedule
+
 from .models import Appointment
 
 

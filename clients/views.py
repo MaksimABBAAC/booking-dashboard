@@ -1,15 +1,10 @@
 from django.db.models import Q
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    UpdateView,
-    ListView,
-    DetailView,
-)
-
-from .models import Client
 from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
 from .forms import ClientForm
+from .models import Client
 
 
 class ClientListView(ListView):

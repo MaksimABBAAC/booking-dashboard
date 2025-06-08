@@ -1,12 +1,13 @@
 import pytest
+from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
 from specialties.models import Specialty
-from .models import Master
+
 from .forms import MasterForm
-from django.contrib.auth.models import User
+from .models import Master
 
 
 @pytest.mark.django_db

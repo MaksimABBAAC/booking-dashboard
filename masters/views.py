@@ -1,14 +1,10 @@
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+from rest_framework import generics
+
 from .forms import MasterForm
 from .models import Master
-from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    UpdateView,
-    ListView,
-    DetailView,
-)
-from rest_framework import generics
 from .serializers import MasterSerializer
 
 

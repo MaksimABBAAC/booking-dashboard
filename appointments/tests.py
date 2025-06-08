@@ -1,17 +1,20 @@
-from django.core.management import call_command
 import json
+from datetime import date, datetime, time, timedelta
+
+import pytest
+from django.contrib.auth.models import User
+from django.core.management import call_command
 from django.db import IntegrityError
 from django.forms import ValidationError
-import pytest
 from django.urls import reverse
 from rest_framework import status
-from schedules.models import DailySchedule, WeeklySchedule
-from specialties.models import Specialty
-from .models import Appointment
+
 from clients.models import Client
 from masters.models import Master
-from django.contrib.auth.models import User
-from datetime import date, datetime, timedelta, time
+from schedules.models import DailySchedule, WeeklySchedule
+from specialties.models import Specialty
+
+from .models import Appointment
 
 
 class TestAppointment:
