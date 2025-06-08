@@ -8,16 +8,14 @@ from .models import Client
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
-        fields = ["phone_number", "tg_id"]
-
-    phone_number = forms.CharField(required=True)
+        fields = ['number', 'tg_id']
+    number = forms.CharField(required=True)
     tg_id = forms.IntegerField(
         required=False,
         widget=forms.NumberInput(
             attrs={"class": "form-control", "placeholder": "123456789"}
         ),
     )
-    appointment_id = forms.IntegerField(widget=forms.HiddenInput())
 
     def clean_tg_id(self):
         tg_id = self.cleaned_data.get("tg_id")
