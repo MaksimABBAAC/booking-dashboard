@@ -19,6 +19,7 @@ class WeeklySchedule(models.Model):
         verbose_name = "Недельное расписание"
         verbose_name_plural = "Недельные расписания"
         ordering = ["master", "title"]
+        db_table = "weeklySchedule"
 
     def __str__(self):
         return f'{self.master} — {self.title or "Расписание"}'
@@ -63,6 +64,7 @@ class DailySchedule(models.Model):
         verbose_name_plural = "Дневные расписания"
         unique_together = [["weekly_schedule", "day_of_week"]]
         ordering = ["day_of_week"]
+        db_table = "dailySchedules"
 
     def __str__(self):
         return f"{self.get_day_of_week_display()} ({self.weekly_schedule})"

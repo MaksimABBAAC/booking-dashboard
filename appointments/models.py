@@ -35,6 +35,7 @@ class Appointment(models.Model):
         verbose_name_plural = "Записи на прием"
         ordering = ["date", "start_time"]
         unique_together = ["master", "date", "start_time"]
+        db_table = "appointments"
 
     def __str__(self):
         status = "Свободно" if self.is_available else f"Занято ({self.client})"
