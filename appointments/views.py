@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from django.contrib import messages
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DeleteView, FormView, UpdateView
@@ -35,16 +36,59 @@ class AvailableAppointmentsList(generics.ListAPIView):
             queryset = queryset.filter(date=date)
 
         return queryset
+    
+class BookedAppointmentsByTgId(generics.ListAPIView):
+    serializer_class = AppointmentSerializer
 
+    def get_queryset(self):
+        tg_id = self.kwargs.get('tg_id')
+        
+        queryset = Appointment.objects.filter(
+            is_available=False,
+            client__tg_id=tg_id,
+            date__gte=timezone.now() + timedelta(days=1)
+        )
+        
+        return queryset
+
+class CancelAppointmentView(APIView):
+    def post(self, request):
+        try:
+            appointment_id = request.data.get('appointment_id')
+            tg_id = int(request.data.get('tg_id'))
+            
+           
+
+            appointment = get_object_or_404(Appointment, id=appointment_id)
+            
+            
+
+            appointment.client = None
+            appointment.is_available = True
+            appointment.save()
+            
+            
+            return Response(
+                {
+                    "status": "success", 
+                    "message": "Appointment cancelled successfully",
+                    "appointment_id": appointment_id
+                },
+                status=status.HTTP_200_OK
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": f"Internal server error: {str(e)}", "status": "error"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 class BookAppointmentView(APIView):
     def post(self, request):
         appointment_id = request.data.get("appointment_id")
-        phone_number = parse(request.data.get("phone_number"), "RU")
-        phone_number = format_number(phone_number, PhoneNumberFormat.E164)
         tg_id = request.data.get("tg_id", None)
 
-        if not appointment_id or not phone_number:
+        if not appointment_id or not tg_id:
             return Response(
                 {"error": "appointment_id and phone_number are required"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -54,7 +98,7 @@ class BookAppointmentView(APIView):
             appointment = Appointment.objects.get(id=appointment_id, is_available=True)
 
             client, _ = Client.objects.get_or_create(
-                number=phone_number, defaults={"tg_id": tg_id} if tg_id else {}
+                number = None, defaults={"tg_id": tg_id} if tg_id else {}
             )
 
             appointment.client = client
