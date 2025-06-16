@@ -57,11 +57,7 @@ class CancelAppointmentView(APIView):
             appointment_id = request.data.get('appointment_id')
             tg_id = int(request.data.get('tg_id'))
             
-           
-
             appointment = get_object_or_404(Appointment, id=appointment_id)
-            
-            
 
             appointment.client = None
             appointment.is_available = True
